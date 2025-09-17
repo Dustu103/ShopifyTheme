@@ -1,0 +1,507 @@
+{% comment %}
+  Renders a modern product card with style matching the provided image
+
+  Accepts:
+  - card_product: {Object} Product Liquid object (optional)
+  - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+  - image_shape: {String} Image mask to apply to the product image card. Values are "arch", "blob", "chevronleft", "chevronright", "diamond", "parallelogram", and "round". (optional)
+  - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false
+  - show_rating: {Boolean} Show the product rating. Default: false
+  - extend_height: {Boolean} Card height extends to available container space. Default: true (optional)
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+  - skip_styles: {Boolean} Don't include component styles. Default: false (optional)
+  - quick_add: {String} Show the quick add button. Values: 'standard', 'bulk', 'none'
+  - section_id: {String} The ID of the section that contains this card.
+  - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+
+  Usage:
+  {% render 'card-product', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+
+{%- unless skip_styles -%}
+  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  <style>
+    .modern-product-card {
+      border: 2px solid #e32402;
+      border-radius: 8px;
+      padding: 16px;
+      background: white;
+      text-align: center;
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .modern-product-card:hover {
+      border-color: #c41e02;
+      box-shadow: 0 4px 16px rgba(227, 36, 2, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .modern-card__media {
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    
+    .modern-card__media-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #f8f9fa;
+      padding: 8px;
+    }
+    
+    .modern-card__media img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.3s ease;
+      border-radius: 4px;
+    }
+    
+    .modern-card__media:hover img {
+      transform: scale(1.06);
+    }
+    
+    .modern-card__content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .modern-card__info {
+      margin-bottom: 16px;
+    }
+    
+    .modern-card__rating {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .modern-rating-stars {
+      display: flex;
+      gap: 2px;
+      color: #ffc107;
+      font-size: 16px;
+    }
+    
+    .modern-rating-text {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+      font-weight: 500;
+    }
+    
+    .modern-card__title {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      line-height: 1.4;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .modern-card__title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .modern-card__title a:hover {
+      color: #e32402;
+    }
+    
+    .modern-card__pricing {
+      margin-bottom: 16px;
+    }
+    
+    .modern-price {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    
+    .modern-price__compare {
+      font-size: 16px;
+      color: #999;
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+    
+    .modern-price__current {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+    
+    .modern-price__discount {
+      font-size: 12px;
+      color: #28a745;
+      font-weight: 700;
+      background: #e8f5e8;
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-top: 4px;
+    }
+    
+    .modern-add-to-cart {
+      background: #e32402 !important;
+      color: white !important;
+      border: none !important;
+      padding: 14px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .modern-add-to-cart:hover {
+      background: #c41e02 !important;
+      {% comment %} transform: scale(1.06); {% endcomment %}
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+    
+    .modern-add-to-cart:focus {
+      background: #e32402 !important;
+      outline: none;
+    }
+    
+    .modern-add-to-cart:active {
+      background: #b01a02 !important;
+    }
+    
+    .modern-add-to-cart:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .modern-card__badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: #e32402;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      z-index: 1;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .modern-card__badge--sold-out {
+      background: #6c757d;
+    }
+    
+    .modern-card__badge--sale {
+      background: #28a745;
+    }
+  </style>
+{%- endunless -%}
+
+{%- if card_product and card_product != empty -%}
+  {%- liquid
+    assign ratio = 1
+    if card_product.featured_media and media_aspect_ratio == 'portrait'
+      assign ratio = 0.8
+    elsif card_product.featured_media and media_aspect_ratio == 'adapt'
+      assign ratio = card_product.featured_media.aspect_ratio
+    endif
+    if ratio == 0 or ratio == null
+      assign ratio = 1
+    endif
+  -%}
+  
+  <div class="modern-product-card">
+    {%- if card_product.featured_media -%}
+      <div class="modern-card__media">
+        <div class="modern-card__media-container">
+          {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+          <img
+            srcset="
+              {%- if card_product.featured_media.width >= 165 -%}{{ card_product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+              {%- if card_product.featured_media.width >= 360 -%}{{ card_product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+              {%- if card_product.featured_media.width >= 533 -%}{{ card_product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+              {%- if card_product.featured_media.width >= 720 -%}{{ card_product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+              {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+            "
+            src="{{ card_product.featured_media | image_url: width: 533 }}"
+            sizes="(min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+            alt="{{ card_product.featured_media.alt | escape }}"
+            {% unless lazy_load == false %}loading="lazy"{% endunless %}
+            width="{{ card_product.featured_media.width }}"
+            height="{{ card_product.featured_media.height }}"
+          >
+          {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+          
+          {%- if card_product.media[1] != null and show_secondary_image -%}
+            <img
+              srcset="
+                {%- if card_product.media[1].width >= 165 -%}{{ card_product.media[1] | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if card_product.media[1].width >= 360 -%}{{ card_product.media[1] | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if card_product.media[1].width >= 533 -%}{{ card_product.media[1] | image_url: width: 533 }} 533w,{%- endif -%}
+                {{ card_product.media[1] | image_url }} {{ card_product.media[1].width }}w
+              "
+              src="{{ card_product.media[1] | image_url: width: 533 }}"
+              alt="{{ card_product.media[1].alt | escape }}"
+              loading="lazy"
+              width="{{ card_product.media[1].width }}"
+              height="{{ card_product.media[1].height }}"
+              style="position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.3s ease;"
+              onmouseover="this.style.opacity='1'"
+              onmouseout="this.style.opacity='0'"
+            >
+          {%- endif -%}
+        </div>
+        
+        {%- if card_product.available == false -%}
+          <div class="modern-card__badge modern-card__badge--sold-out">
+            {{ 'products.product.sold_out' | t }}
+          </div>
+        {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+          <div class="modern-card__badge modern-card__badge--sale">
+            {{ 'products.product.on_sale' | t }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    
+    <div class="modern-card__content">
+      <div class="modern-card__info">
+        {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
+          <div class="modern-card__rating">
+            {% liquid
+              assign rating_decimal = 0
+              assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
+              if decimal >= 0.3 and decimal <= 0.7
+                assign rating_decimal = 0.5
+              elsif decimal > 0.7
+                assign rating_decimal = 1
+              endif
+              assign full_stars = card_product.metafields.reviews.rating.value.rating | floor
+              assign half_star = rating_decimal
+              assign total_stars = 5
+            %}
+            
+            <div class="modern-rating-stars">
+              {%- liquid
+                assign next_star_position = full_stars | plus: 1
+              -%}
+              {%- for i in (1..total_stars) -%}
+                {%- if i <= full_stars -%}
+                  ★
+                {%- elsif i == next_star_position and half_star -%}
+                  ☆
+                {%- else -%}
+                  ☆
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            
+            <p class="modern-rating-text">
+              | {{ card_product.metafields.reviews.rating_count }} Reviews
+            </p>
+          </div>
+        {%- elsif show_rating -%}
+          {%- comment -%} Fallback for products without metafield ratings {%- endcomment -%}
+          <div class="modern-card__rating">
+            <div class="modern-rating-stars">
+              ★★★★☆
+            </div>
+            <p class="modern-rating-text">
+              | 75 Reviews
+            </p>
+          </div>
+        {%- endif -%}
+        
+        <h3 class="modern-card__title">
+          <a href="{{ card_product.url }}" id="title-{{ section_id }}-{{ card_product.id }}">
+            {{ card_product.title | escape }}
+          </a>
+        </h3>
+        
+        {%- if show_vendor -%}
+          <div class="modern-card__vendor">{{ card_product.vendor }}</div>
+        {%- endif -%}
+        
+        <div class="modern-card__pricing">
+          <div class="modern-price">
+            {%- if card_product.compare_at_price > card_product.price -%}
+              <span class="modern-price__compare">
+                Rs. {{ card_product.compare_at_price | money_without_currency | remove: '.00' }}
+              </span>
+            {%- endif -%}
+            
+            <span class="modern-price__current">
+              Rs. {{ card_product.price | money_without_currency | remove: '.00' }}/-
+            </span>
+          </div>
+          
+          {%- if card_product.compare_at_price > card_product.price -%}
+            {%- liquid
+              assign discount_percentage = card_product.compare_at_price | minus: card_product.price
+              assign discount_percentage = discount_percentage | times: 100.0 | divided_by: card_product.compare_at_price | round
+            -%}
+            
+            <div class="modern-price__discount">
+              -{{ discount_percentage }}% OFF
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      
+      {% if quick_add == 'standard' or quick_add == 'bulk' %}
+        {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
+        
+        {%- liquid
+          assign qty_rules = false
+          if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
+            assign qty_rules = true
+          endif
+        -%}
+        
+        {%- if card_product.variants_count > 1 or qty_rules -%}
+          <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
+            <button
+              type="button"
+              class="modern-add-to-cart"
+              aria-haspopup="dialog"
+              aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+              data-product-url="{{ card_product.url }}"
+            >
+              {{ 'products.product.choose_options' | t }}
+            </button>
+          </modal-opener>
+          
+          <quick-add-modal id="QuickAdd-{{ card_product.id }}" class="quick-add-modal">
+            <div
+              role="dialog"
+              aria-label="{{ 'products.product.choose_product_options' | t: product_name: card_product.title | escape }}"
+              aria-modal="true"
+              class="quick-add-modal__content global-settings-popup"
+              tabindex="-1"
+            >
+              <button
+                id="ModalClose-{{ card_product.id }}"
+                type="button"
+                class="quick-add-modal__toggle"
+                aria-label="{{ 'accessibility.close' | t }}"
+              >
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </button>
+              <div id="QuickAddInfo-{{ card_product.id }}" class="quick-add-modal__content-info"></div>
+            </div>
+          </quick-add-modal>
+        {%- else -%}
+          <product-form data-section-id="{{ section.id }}">
+            {%- form 'product',
+              card_product,
+              id: product_form_id,
+              class: 'form',
+              novalidate: 'novalidate',
+              data-type: 'add-to-cart-form'
+            -%}
+              <input
+                type="hidden"
+                name="id"
+                value="{{ card_product.selected_or_first_available_variant.id }}"
+                class="product-variant-id"
+                {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              >
+              <button
+                id="{{ product_form_id }}-submit"
+                type="submit"
+                name="add"
+                class="modern-add-to-cart"
+                aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
+                aria-live="polite"
+                data-sold-out-message="true"
+                {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              >
+                <span>
+                  {%- if card_product.selected_or_first_available_variant.available -%}
+                    ADD TO CART
+                  {%- else -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- endif -%}
+                </span>
+                <span class="sold-out-message hidden">
+                  {{ 'products.product.sold_out' | t }}
+                </span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            {%- endform -%}
+          </product-form>
+        {%- endif -%}
+      {% endif %}
+    </div>
+  </div>
+{%- else -%}
+  {%- liquid
+    assign ratio = 1
+    if media_aspect_ratio == 'portrait'
+      assign ratio = 0.8
+    endif
+  -%}
+  
+  <div class="modern-product-card">
+    <div class="modern-card__media">
+      <div class="modern-card__media-container">
+        {%- if placeholder_image -%}
+          {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- else -%}
+          {{ 'product-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="modern-card__content">
+      <div class="modern-card__info">
+        <h3 class="modern-card__title">
+          <a role="link" aria-disabled="true">
+            {{ 'onboarding.product_title' | t }}
+          </a>
+        </h3>
+        
+        {%- if show_vendor -%}
+          <div class="modern-card__vendor">{{ 'products.product.vendor' | t }}</div>
+        {%- endif -%}
+        
+        <div class="modern-card__pricing">
+          <div class="modern-price">
+            <span class="modern-price__compare">Rs. 1,200</span>
+            <span class="modern-price__current">Rs. 949/-</span>
+          </div>
+          <div class="modern-price__discount">-20% OFF</div>
+        </div>
+      </div>
+      
+      <button type="button" class="modern-add-to-cart" disabled>
+        ADD TO CART
+      </button>
+    </div>
+  </div>
+{%- endif -%}

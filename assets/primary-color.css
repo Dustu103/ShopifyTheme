@@ -1,0 +1,77 @@
+/* Primary Color Override - #e32402 */
+:root {
+  --color-primary: #e32402;
+  --color-primary-hover: #c41e02;
+  --color-primary-active: #b01a02;
+}
+
+
+
+/* Override cart drawer button */
+.cart__checkout-button,
+#CartDrawer-Checkout {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.cart__checkout-button:hover,
+#CartDrawer-Checkout:hover {
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+}
+
+/* Override product form buttons */
+.product-form__buttons button,
+.product-form__cart-submit {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.product-form__buttons button:hover,
+.product-form__cart-submit:hover {
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+}
+
+/* Override quick add buttons */
+.quick-add__submit {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.quick-add__submit:hover {
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+}
+
+/* Override collection buttons */
+.collection__view-all {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.collection__view-all:hover {
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+}
+
+/* Override header cart button */
+.cart-count-bubble {
+  background-color: var(--color-primary) !important;
+}
+
+/* Override links */
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Override focus states */
+button:focus,
+.button:focus,
+.btn:focus {
+  box-shadow: 0 0 0 2px rgba(227, 36, 2, 0.3) !important;
+}
