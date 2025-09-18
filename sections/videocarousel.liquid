@@ -85,11 +85,11 @@
   /* Product Card Section */
   .product-card-section {
     width: 240px !important;
-    height: 120px !important;
     background: white !important;
-    padding: 16px !important;
+    padding: 0 10px !important;
     display: flex !important;
-    gap: 12px !important;
+    flex-direction: column !important;
+    gap: 0 !important;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
@@ -97,18 +97,19 @@
     z-index: 10 !important;
     flex-grow: 1;
   }
+
   
   .product-image {
     flex-shrink: 0 !important;
-    width: 60px !important;
+    width: 40px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
   }
   
   .product-thumbnail {
-    width: 60px !important;
-    height: 60px !important;
+    width: 45px !important;
+    height: 45px !important;
     border-radius: 50% !important;
     object-fit: cover !important;
     border: 1px solid #e5e5e5 !important;
@@ -117,13 +118,19 @@
   .product-content {
     flex-grow: 1 !important;
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     justify-content: space-between !important;
+    align-items: center !important;
     position: relative !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    max-height: 85px !important;
+    gap: 0 !important;
   }
 
   .product-details {
-    flex-grow: 1 !important;
+    width: 150px !important;
+    flex-shrink: 0 !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -147,7 +154,7 @@
     margin-bottom: 8px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0px;
   }
   
   .price-row {
@@ -157,7 +164,7 @@
   }
   
   .current-price {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 700;
     color: #333;
   }
@@ -172,6 +179,9 @@
     font-size: 12px;
     color: #00aa00;
     font-weight: 600;
+    text-align: left !important;
+    align-self: flex-start !important;
+    margin-left: 0 !important;
   }
   
   .buy-now-button {
@@ -330,14 +340,14 @@
                         </div>
                       </div>
                       <div class="product-card-section">
-                        <div class="product-image">
+                         <div class = "product-content">
+                         <div class="product-image">
                           {% if block.settings.product_image != blank %}
                             <img src="{{ block.settings.product_image | img_url: '60x60' }}" alt="{{ block.settings.product_title }}" class="product-thumbnail">
                           {% else %}
                             <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Coffee Product" class="product-thumbnail">
                           {% endif %}
                         </div>
-                        <div class="product-content">
                           <div class="product-details">
                             <h4 class="product-title">{{ block.settings.product_title | default: 'Cold Coffee 1 Kg - Fermented...' }}</h4>
                             <div class="product-pricing">
@@ -348,8 +358,11 @@
                               <span class="discount">{{ block.settings.discount_percentage | default: '13' }}% Off</span>
                             </div>
                           </div>
-                          <button class="buy-now-button">Buy Now</button>
+                         
                         </div>
+                          <div>
+                         <button class="buy-now-button">Buy Now</button>
+                         </div>
                       </div>
                     </div>
                   {% elsif block.settings.media contains 'youtube.com' or block.settings.media contains 'youtu.be' %}
@@ -420,14 +433,14 @@
                         </div>
                       </div>
                       <div class="product-card-section">
-                        <div class="product-image">
-                          {% if block.settings.product_image != blank %}
-                            <img src="{{ block.settings.product_image | img_url: '60x60' }}" alt="{{ block.settings.product_title }}" class="product-thumbnail">
-                          {% else %}
-                            <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Coffee Product" class="product-thumbnail">
-                          {% endif %}
-                        </div>
                         <div class="product-content">
+                          <div class="product-image">
+                            {% if block.settings.product_image != blank %}
+                              <img src="{{ block.settings.product_image | img_url: '60x60' }}" alt="{{ block.settings.product_title }}" class="product-thumbnail">
+                            {% else %}
+                              <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Coffee Product" class="product-thumbnail">
+                            {% endif %}
+                          </div>
                           <div class="product-details">
                             <h4 class="product-title">{{ block.settings.product_title | default: 'Cold Coffee 1 Kg - Fermented...' }}</h4>
                             <div class="product-pricing">
@@ -438,6 +451,8 @@
                               <span class="discount">{{ block.settings.discount_percentage | default: '13' }}% Off</span>
                             </div>
                           </div>
+                        </div>
+                        <div>
                           <button class="buy-now-button">Buy Now</button>
                         </div>
                       </div>
