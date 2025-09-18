@@ -343,13 +343,21 @@
                             <source src="{{ media.sources[1].url }}" type="video/mp4">
                           </video>
                         {% else %}
-                          <img class="media-element" src="{{ media | img_url: '240x440' }}" alt="{{ product.title }}">
+                          <img class="media-element" src="{{ media | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
                         {% endif %}
                       {% endfor %}
                     {% else %}
-                      <video class="media-element" muted autoplay loop playsinline>
-                        <source src="https://cdn.shopify.com/videos/c/o/v/9902e99f3198403cabab2755732c684f.mp4" type="video/mp4">
-                      </video>
+                      {% comment %} Fallback: Show product image or placeholder {% endcomment %}
+                      {% if product.featured_image %}
+                        <img class="media-element" src="{{ product.featured_image | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
+                      {% else %}
+                        <div class="media-element" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; padding: 20px;">
+                          <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                            <div>No Media Available</div>
+                          </div>
+                        </div>
+                      {% endif %}
                     {% endif %}
                     <div class="video-badge">2.2K Views</div>
                     <div class="video-actions">
@@ -369,9 +377,9 @@
                     <div class="product-content">
                       <div class="product-image">
                         {% if product.featured_image %}
-                          <img src="{{ product.featured_image | img_url: '60x60' }}" alt="{{ product.title }}" class="product-thumbnail">
+                          <img src="{{ product.featured_image | image_url: width: 60, height: 60 }}" alt="{{ product.title }}" class="product-thumbnail" width="60" height="60">
                         {% else %}
-                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Product" class="product-thumbnail">
+                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Product" class="product-thumbnail" width="60" height="60">
                         {% endif %}
                       </div>
                       <div class="product-details">
@@ -412,13 +420,21 @@
                             <source src="{{ media.sources[1].url }}" type="video/mp4">
                           </video>
                         {% else %}
-                          <img class="media-element" src="{{ media | img_url: '240x440' }}" alt="{{ product.title }}">
+                          <img class="media-element" src="{{ media | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
                         {% endif %}
                       {% endfor %}
                     {% else %}
-                      <video class="media-element" muted autoplay loop playsinline>
-                        <source src="https://cdn.shopify.com/videos/c/o/v/9902e99f3198403cabab2755732c684f.mp4" type="video/mp4">
-                      </video>
+                      {% comment %} Fallback: Show product image or placeholder {% endcomment %}
+                      {% if product.featured_image %}
+                        <img class="media-element" src="{{ product.featured_image | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
+                      {% else %}
+                        <div class="media-element" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; padding: 20px;">
+                          <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                            <div>No Media Available</div>
+                          </div>
+                        </div>
+                      {% endif %}
                     {% endif %}
                     <div class="video-badge">2.2K Views</div>
                     <div class="video-actions">
@@ -438,9 +454,9 @@
                     <div class="product-content">
                       <div class="product-image">
                         {% if product.featured_image %}
-                          <img src="{{ product.featured_image | img_url: '60x60' }}" alt="{{ product.title }}" class="product-thumbnail">
+                          <img src="{{ product.featured_image | image_url: width: 60, height: 60 }}" alt="{{ product.title }}" class="product-thumbnail" width="60" height="60">
                         {% else %}
-                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Product" class="product-thumbnail">
+                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Product" class="product-thumbnail" width="60" height="60">
                         {% endif %}
                       </div>
                       <div class="product-details">
@@ -481,13 +497,21 @@
                             <source src="{{ media.sources[1].url }}" type="video/mp4">
                           </video>
                         {% else %}
-                          <img class="media-element" src="{{ media | img_url: '240x440' }}" alt="{{ product.title }}">
+                          <img class="media-element" src="{{ media | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
                         {% endif %}
                       {% endfor %}
                     {% else %}
-                      <video class="media-element" muted autoplay loop playsinline>
-                        <source src="https://cdn.shopify.com/videos/c/o/v/9902e99f3198403cabab2755732c684f.mp4" type="video/mp4">
-                      </video>
+                      {% comment %} Fallback: Show product image or placeholder {% endcomment %}
+                      {% if product.featured_image %}
+                        <img class="media-element" src="{{ product.featured_image | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
+                      {% else %}
+                        <div class="media-element" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; padding: 20px;">
+                          <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                            <div>No Media Available</div>
+                          </div>
+                        </div>
+                      {% endif %}
                     {% endif %}
                     <div class="video-badge">2.2K Views</div>
                     <div class="video-actions">
@@ -507,9 +531,9 @@
                     <div class="product-content">
                       <div class="product-image">
                         {% if product.featured_image %}
-                          <img src="{{ product.featured_image | img_url: '60x60' }}" alt="{{ product.title }}" class="product-thumbnail">
+                          <img src="{{ product.featured_image | image_url: width: 60, height: 60 }}" alt="{{ product.title }}" class="product-thumbnail" width="60" height="60">
                         {% else %}
-                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Product" class="product-thumbnail">
+                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Product" class="product-thumbnail" width="60" height="60">
                         {% endif %}
                       </div>
                       <div class="product-details">
