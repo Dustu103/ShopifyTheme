@@ -90,7 +90,7 @@
     z-index: 10;
     padding: 6px 10px;
     border-radius: 12px;
-    background: rgb(1,1,1,.1);
+    background: rgba(1, 1, 1, 0.1);
     color: #fff;
     font-size: 12px;
     font-weight: 700;
@@ -340,7 +340,7 @@
                     {% comment %} Use Shopify video as fallback {% endcomment %}
                     <div class="video-product-card">
                       <div class="video-container">
-                        <video class="media-element" muted autoplay loop>
+                        <video class="media-element" muted autoplay loop playsinline>
                           <source src="https://cdn.shopify.com/videos/c/o/v/9902e99f3198403cabab2755732c684f.mp4" type="video/mp4">
                         </video>
                         <div class="video-badge">2.2K Views</div>
@@ -384,7 +384,12 @@
                       </div>
                     </div>
                   {% elsif block.settings.media contains 'youtube.com' or block.settings.media contains 'youtu.be' %}
-                    {% assign video_id = block.settings.media | split: 'watch?v=' | last | split: '&' | first %}
+                    {% assign video_id = block.settings.media %}
+                    {% if block.settings.media contains 'youtube.com' %}
+                      {% assign video_id = block.settings.media | split: 'v=' | last | split: '&' | first %}
+                    {% elsif block.settings.media contains 'youtu.be' %}
+                      {% assign video_id = block.settings.media | split: '/' | last | split: '?' | first %}
+                    {% endif %}
                     <div class="video-container">
                       <iframe class="media-element" width="240" height="440" src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&loop=1&playlist={{ video_id }}&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                       <div class="video-badge">2.2K Views</div>
@@ -403,7 +408,7 @@
                     </div>
                   {% else %}
                     <div class="video-container">
-                      <video class="media-element" muted autoplay loop>
+                      <video class="media-element" muted autoplay loop playsinline>
                         <source src="{{ block.settings.media }}">
                       </video>
                       <div class="video-badge">2.2K Views</div>
@@ -436,7 +441,7 @@
                     {% comment %} Use Shopify video as fallback {% endcomment %}
                     <div class="video-product-card">
                       <div class="video-container">
-                        <video class="media-element" muted autoplay loop>
+                        <video class="media-element" muted autoplay loop playsinline>
                           <source src="https://cdn.shopify.com/videos/c/o/v/9902e99f3198403cabab2755732c684f.mp4" type="video/mp4">
                         </video>
                         <div class="video-badge">2.2K Views</div>
@@ -479,7 +484,12 @@
                       </div>
                     </div>
                   {% elsif block.settings.media contains 'youtube.com' or block.settings.media contains 'youtu.be' %}
-                    {% assign video_id = block.settings.media | split: 'watch?v=' | last | split: '&' | first %}
+                    {% assign video_id = block.settings.media %}
+                    {% if block.settings.media contains 'youtube.com' %}
+                      {% assign video_id = block.settings.media | split: 'v=' | last | split: '&' | first %}
+                    {% elsif block.settings.media contains 'youtu.be' %}
+                      {% assign video_id = block.settings.media | split: '/' | last | split: '?' | first %}
+                    {% endif %}
                     <div class="video-container">
                       <iframe class="media-element" width="240" height="440" src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&loop=1&playlist={{ video_id }}&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                       <div class="video-badge">2.2K Views</div>
@@ -498,7 +508,7 @@
                     </div>
                   {% else %}
                     <div class="video-container">
-                      <video class="media-element" muted autoplay loop>
+                      <video class="media-element" muted autoplay loop playsinline>
                         <source src="{{ block.settings.media }}">
                       </video>
                       <div class="video-badge">2.2K Views</div>
@@ -527,9 +537,94 @@
                 {% if block.type == "carousel_image" %}
                   <img class="media-element" src="{{ block.settings.media | img_url: section.settings.media_size }}" alt="Carousel Image">
                 {% elsif block.type == "carousel_video" %}
-                  <video class="media-element" controls>
-                    <source src="{{ block.settings.media }}">
-                  </video>
+                  {% if block.settings.media == blank or block.settings.media == "" %}
+                    <div class="video-product-card">
+                      <div class="video-container">
+                        <video class="media-element" muted autoplay loop playsinline>
+                          <source src="https://cdn.shopify.com/videos/c/o/v/9902e99f3198403cabab2755732c684f.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-badge">2.2K Views</div>
+                        <div class="video-actions">
+                          <div class="action-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+                            </svg>
+                          </div>
+                          <div class="action-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" fill="currentColor"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="product-card-section">
+                        <div class="product-content">
+                          <div class="product-image">
+                            {% if block.settings.product_image != blank %}
+                              <img src="{{ block.settings.product_image | img_url: '60x60' }}" alt="{{ block.settings.product_title }}" class="product-thumbnail">
+                            {% else %}
+                              <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="Coffee Product" class="product-thumbnail">
+                            {% endif %}
+                          </div>
+                          <div class="product-details">
+                            <h4 class="product-title">{{ block.settings.product_title | default: 'Cold Coffee 1 Kg - Fermented...' }}</h4>
+                            <div class="product-pricing">
+                              <div class="price-row">
+                                <span class="current-price">₹ {{ block.settings.current_price | default: '2799' }}</span>
+                                <span class="original-price">₹ {{ block.settings.original_price | default: '3200' }}</span>
+                              </div>
+                              <span class="discount">{{ block.settings.discount_percentage | default: '13' }}% Off</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <button class="buy-now-button">Buy Now</button>
+                        </div>
+                      </div>
+                    </div>
+                  {% elsif block.settings.media contains 'youtube.com' or block.settings.media contains 'youtu.be' %}
+                    {% assign video_id = block.settings.media %}
+                    {% if block.settings.media contains 'youtube.com' %}
+                      {% assign video_id = block.settings.media | split: 'v=' | last | split: '&' | first %}
+                    {% elsif block.settings.media contains 'youtu.be' %}
+                      {% assign video_id = block.settings.media | split: '/' | last | split: '?' | first %}
+                    {% endif %}
+                    <div class="video-container">
+                      <iframe class="media-element" width="240" height="440" src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&loop=1&playlist={{ video_id }}&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      <div class="video-badge">2.2K Views</div>
+                      <div class="video-actions">
+                        <div class="action-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+                          </svg>
+                        </div>
+                        <div class="action-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" fill="currentColor"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="video-container">
+                      <video class="media-element" muted autoplay loop playsinline>
+                        <source src="{{ block.settings.media }}">
+                      </video>
+                      <div class="video-badge">2.2K Views</div>
+                      <div class="video-actions">
+                        <div class="action-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+                          </svg>
+                        </div>
+                        <div class="action-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" fill="currentColor"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
                 {% endif %}
               </div>
             {% endfor %}
