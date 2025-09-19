@@ -365,9 +365,12 @@
                       {% if product.featured_image %}
                         <img class="media-element" src="{{ product.featured_image | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
                       {% else %}
-                        <video class="media-element" muted autoplay loop playsinline>
-                          <source src="https://cdn.shopify.com/videos/c/o/v/41297fb09ea74b3d9248655c7c2ab759.mp4" type="video/mp4">
-                        </video>
+                        <div class="media-element" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; padding: 20px;">
+                          <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                            <div>No Media Available</div>
+                          </div>
+                        </div>
                       {% endif %}
                     {% endif %}
                     <div class="video-badge">2.2K Views</div>
@@ -439,9 +442,12 @@
                       {% if product.featured_image %}
                         <img class="media-element" src="{{ product.featured_image | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
                       {% else %}
-                        <video class="media-element" muted autoplay loop playsinline>
-                          <source src="https://cdn.shopify.com/videos/c/o/v/41297fb09ea74b3d9248655c7c2ab759.mp4" type="video/mp4">
-                        </video>
+                        <div class="media-element" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; padding: 20px;">
+                          <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                            <div>No Media Available</div>
+                          </div>
+                        </div>
                       {% endif %}
                     {% endif %}
                     <div class="video-badge">2.2K Views</div>
@@ -513,9 +519,12 @@
                       {% if product.featured_image %}
                         <img class="media-element" src="{{ product.featured_image | image_url: width: 240, height: 440 }}" alt="{{ product.title }}" width="240" height="440">
                       {% else %}
-                        <video class="media-element" muted autoplay loop playsinline>
-                          <source src="https://cdn.shopify.com/videos/c/o/v/41297fb09ea74b3d9248655c7c2ab759.mp4" type="video/mp4">
-                        </video>
+                        <div class="media-element" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; padding: 20px;">
+                          <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                            <div>No Media Available</div>
+                          </div>
+                        </div>
                       {% endif %}
                     {% endif %}
                     <div class="video-badge">2.2K Views</div>
@@ -568,107 +577,13 @@
             {%- comment -%}
               Show message when no collection is selected
             {%- endcomment -%}
-            {%- comment -%}
-              Show 6 fallback cards when no collection is selected
-            {%- endcomment -%}
-            {% for i in (1..6) %}
-              <div class="slide">
-                <div class="video-product-card">
-                  <div class="video-container">
-                    <video class="media-element" muted autoplay loop playsinline>
-                      <source src="https://cdn.shopify.com/videos/c/o/v/41297fb09ea74b3d9248655c7c2ab759.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-badge">2.2K Views</div>
-                    <div class="video-actions">
-                      <div class="action-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
-                        </svg>
-                      </div>
-                      <div class="action-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                          <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" fill="currentColor"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="product-card-section">
-                    <div class="product-content">
-                      <div class="product-image">
-                        {% if section.settings.fallback_image %}
-                          <img src="{{ section.settings.fallback_image | image_url: width: 60, height: 60 }}" alt="{{ section.settings.fallback_title }}" class="product-thumbnail" width="60" height="60">
-                        {% else %}
-                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="{{ section.settings.fallback_title }}" class="product-thumbnail" width="60" height="60">
-                        {% endif %}
-                      </div>
-                      <div class="product-details">
-                        <h4 class="product-title">{{ section.settings.fallback_title | default: 'Premium Product' }}</h4>
-                        <div class="product-pricing">
-                          <div class="price-row">
-                            <span class="current-price">₹ {{ section.settings.fallback_current_price | default: '2999' }}</span>
-                            <span class="original-price">₹ {{ section.settings.fallback_original_price | default: '3999' }}</span>
-                          </div>
-                          <span class="discount">{{ section.settings.fallback_discount | default: '25' }}% Off</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <button class="buy-now-button">Buy Now</button>
-                    </div>
-                  </div>
-                </div>
+            <div class="slide" style="width: 100%; text-align: center; padding: 40px;">
+              <div style="background: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 12px; padding: 40px; margin: 20px;">
+                <div style="font-size: 48px; margin-bottom: 16px;">📹</div>
+                <h3 style="color: #6c757d; margin-bottom: 8px;">No Collection Selected</h3>
+                <p style="color: #6c757d; margin: 0;">Please select a collection in the theme customizer to display products.</p>
               </div>
-            {% endfor %}
-            
-            {%- comment -%} Clone the first 6 cards for seamless infinite scrolling {%- endcomment -%}
-            {% for i in (1..6) %}
-              <div class="slide clone">
-                <div class="video-product-card">
-                  <div class="video-container">
-                    <video class="media-element" muted autoplay loop playsinline>
-                      <source src="https://cdn.shopify.com/videos/c/o/v/41297fb09ea74b3d9248655c7c2ab759.mp4" type="video/mp4">
-                    </video>
-                    <div class="video-badge">2.2K Views</div>
-                    <div class="video-actions">
-                      <div class="action-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
-                        </svg>
-                      </div>
-                      <div class="action-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                          <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" fill="currentColor"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="product-card-section">
-                    <div class="product-content">
-                      <div class="product-image">
-                        {% if section.settings.fallback_image %}
-                          <img src="{{ section.settings.fallback_image | image_url: width: 60, height: 60 }}" alt="{{ section.settings.fallback_title }}" class="product-thumbnail" width="60" height="60">
-                        {% else %}
-                          <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=60&h=60&fit=crop&crop=center" alt="{{ section.settings.fallback_title }}" class="product-thumbnail" width="60" height="60">
-                        {% endif %}
-                      </div>
-                      <div class="product-details">
-                        <h4 class="product-title">{{ section.settings.fallback_title | default: 'Premium Product' }}</h4>
-                        <div class="product-pricing">
-                          <div class="price-row">
-                            <span class="current-price">₹ {{ section.settings.fallback_current_price | default: '2999' }}</span>
-                            <span class="original-price">₹ {{ section.settings.fallback_original_price | default: '3999' }}</span>
-                          </div>
-                          <span class="discount">{{ section.settings.fallback_discount | default: '25' }}% Off</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <button class="buy-now-button">Buy Now</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
+            </div>
           {% endif %}
         </div>
       </div>
@@ -878,39 +793,6 @@ document.addEventListener("DOMContentLoaded", function() {
       "max": 8,
       "step": 1,
       "default": 1
-    },
-    {
-      "type": "header",
-      "content": "Fallback Product Data"
-    },
-    {
-      "type": "text",
-      "id": "fallback_title",
-      "label": "Fallback Product Title",
-      "default": "Premium Product"
-    },
-    {
-      "type": "text",
-      "id": "fallback_current_price",
-      "label": "Fallback Current Price",
-      "default": "2999"
-    },
-    {
-      "type": "text",
-      "id": "fallback_original_price",
-      "label": "Fallback Original Price",
-      "default": "3999"
-    },
-    {
-      "type": "text",
-      "id": "fallback_discount",
-      "label": "Fallback Discount Percentage",
-      "default": "25"
-    },
-    {
-      "type": "image_picker",
-      "id": "fallback_image",
-      "label": "Fallback Product Image"
     }
   ],
   "presets": [
