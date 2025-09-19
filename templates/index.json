@@ -29,69 +29,11 @@
     },
     "videocarousel_J3W9VR": {
       "type": "videocarousel",
-      "blocks": {
-        "carousel_video_BUe4LK": {
-          "type": "carousel_video",
-          "settings": {
-            "media": "",
-            "product_title": "Cold Coffee 1 Kg - Fermented...",
-            "current_price": "2799",
-            "original_price": "3200",
-            "discount_percentage": "13"
-          }
-        },
-        "carousel_video_D6qwfC": {
-          "type": "carousel_video",
-          "settings": {
-            "media": "",
-            "product_title": "Cold Coffee 1 Kg - Fermented...",
-            "current_price": "2799",
-            "original_price": "3200",
-            "discount_percentage": "13"
-          }
-        },
-        "carousel_video_6YFpdT": {
-          "type": "carousel_video",
-          "settings": {
-            "media": "",
-            "product_title": "Cold Coffee 1 Kg - Fermented...",
-            "current_price": "2799",
-            "original_price": "3200",
-            "discount_percentage": "13"
-          }
-        },
-        "carousel_video_yi8xNE": {
-          "type": "carousel_video",
-          "settings": {
-            "media": "",
-            "product_title": "Cold Coffee 1 Kg - Fermented...",
-            "current_price": "2799",
-            "original_price": "3200",
-            "discount_percentage": "13"
-          }
-        },
-        "carousel_video_mBxkwh": {
-          "type": "carousel_video",
-          "settings": {
-            "media": "",
-            "product_title": "Cold Coffee 1 Kg - Fermented...",
-            "current_price": "2799",
-            "original_price": "3200",
-            "discount_percentage": "13"
-          }
-        }
-      },
-      "block_order": [
-        "carousel_video_BUe4LK",
-        "carousel_video_D6qwfC",
-        "carousel_video_6YFpdT",
-        "carousel_video_yi8xNE",
-        "carousel_video_mBxkwh"
-      ],
       "custom_css": [],
       "name": "Video carousel",
       "settings": {
-        "section_heading": "HEAR IT FROM THE  EARLY ADOPTERS",
+        "collection": "",
+        "section_heading": "HEAR IT FROM THE EARLY ADOPTERS",
         "heading_alignment": "center",
         "heading_size": "large",
         "full_width": true,
@@ -104,13 +46,7 @@
         "arrow_shape": "circle",
         "arrow_bg_color": "#000000",
         "visible_slides": 6,
-        "visible_mobile": 1,
-        "image_shape": "circle",
-        "image_size": "big",
-        "media_size": "large",
-        "media_design": "portrait",
-        "media_shadow": true,
-        "testimonial_name_size": 23
+        "visible_mobile": 1
       }
     },
     "image_banner_jYMMGD": {
