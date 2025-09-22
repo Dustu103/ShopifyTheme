@@ -1,1 +1,1 @@
-npx shopify theme dev --store qes9i7-q1.myshopify.com
+npx shopify theme dev --store xww0hi-t0.myshopify.com
