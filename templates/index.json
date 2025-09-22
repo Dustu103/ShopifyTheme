@@ -9,6 +9,16 @@
  */
 {
   "sections": {
+    "product_detail_carousel_main": {
+      "type": "product-detail-carousel",
+      "settings": {
+        "title": "Premium Product Features",
+        "subtitle": "Discover the amazing benefits of our product",
+        "description": "<p>Our product is designed with the highest quality materials and cutting-edge technology to provide you with an exceptional experience. Every detail has been carefully crafted to meet your needs and exceed your expectations.</p>",
+        "features": "High quality materials, Advanced technology, Easy to use, Durable construction, Eco-friendly design, 24/7 support",
+        "additional_text": "<p>Experience the difference with our premium product. Join thousands of satisfied customers who have made the switch to quality.</p>"
+      }
+    },
     "image_banner_rR3Lc9": {
       "type": "image-banner",
       "name": "t:sections.image-banner.presets.name",
@@ -108,6 +118,7 @@
     }
   },
   "order": [
+    "product_detail_carousel_main",
     "image_banner_rR3Lc9",
     "videocarousel_J3W9VR",
     "image_banner_jYMMGD",
