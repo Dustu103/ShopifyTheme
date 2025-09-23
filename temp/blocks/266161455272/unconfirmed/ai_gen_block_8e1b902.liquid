@@ -1,6 +1,454 @@
+{% doc %}
+  @prompt
+    generate a section which is about us section having a colapsed  header with description ..the header will be in colapsed on click it will exapand and open the description description contain header and paragraph all the header in description in red  like there will 4 5 header with paragraph in description , no not like that simple collapsed header those description header wiull not visible untill the header is opened
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-about-us-section-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-about-us-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-about-us-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.main_title_size }}px;
+    color: {{ block.settings.main_title_color }};
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+
+  .ai-about-us-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ai-about-us-accordion-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .ai-about-us-item-{{ ai_gen_id }} {
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    background-color: {{ block.settings.item_background_color }};
+  }
+
+  .ai-about-us-header-button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 20px 24px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: {{ block.settings.header_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.header_text_color }};
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-about-us-header-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.header_hover_color }};
+  }
+
+  .ai-about-us-header-button-{{ ai_gen_id }}:focus {
+    outline: 2px solid {{ block.settings.focus_color }};
+    outline-offset: -2px;
+  }
+
+  .ai-about-us-icon-{{ ai_gen_id }} {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .ai-about-us-item-{{ ai_gen_id }}.active .ai-about-us-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-about-us-content-{{ ai_gen_id }} {
+    display: none;
+    padding: 0 24px 24px;
+  }
+
+  .ai-about-us-item-{{ ai_gen_id }}.active .ai-about-us-content-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-about-us-content-{{ ai_gen_id }} h3 {
+    color: #dc2626;
+    font-size: {{ block.settings.content_header_size }}px;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+
+  .ai-about-us-content-{{ ai_gen_id }} p {
+    color: {{ block.settings.content_text_color }};
+    font-size: {{ block.settings.content_text_size }}px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+
+  .ai-about-us-content-{{ ai_gen_id }} p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-about-us-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding | times: 0.7 }}px 16px;
+    }
+
+    .ai-about-us-header-button-{{ ai_gen_id }} {
+      padding: 16px 20px;
+      font-size: {{ block.settings.header_font_size | times: 0.9 }}px;
+    }
+
+    .ai-about-us-content-{{ ai_gen_id }} {
+      padding: 0 20px 20px;
+    }
+
+    .ai-about-us-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.main_title_size | times: 0.8 }}px;
+    }
+
+    .ai-about-us-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<about-us-accordion-{{ ai_gen_id }}
+  class="ai-about-us-section-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-about-us-header-{{ ai_gen_id }}">
+    {% if block.settings.main_title != blank %}
+      <h2 class="ai-about-us-title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+    {% endif %}
+    {% if block.settings.subtitle != blank %}
+      <div class="ai-about-us-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</div>
+    {% endif %}
+  </div>
+
+  <div class="ai-about-us-accordion-{{ ai_gen_id }}">
+    {% for i in (1..5) %}
+      {% liquid
+        assign header_key = 'accordion_header_' | append: i
+        assign content_key = 'accordion_content_' | append: i
+        assign header_text = block.settings[header_key]
+        assign content_text = block.settings[content_key]
+      %}
+
+      {% if header_text != blank %}
+        <div class="ai-about-us-item-{{ ai_gen_id }}" data-accordion-item="{{ i }}">
+          <button
+            class="ai-about-us-header-button-{{ ai_gen_id }}"
+            aria-expanded="false"
+            aria-controls="ai-about-us-content-{{ ai_gen_id }}-{{ i }}"
+          >
+            <span>{{ header_text }}</span>
+            <svg
+              class="ai-about-us-icon-{{ ai_gen_id }}"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div
+            class="ai-about-us-content-{{ ai_gen_id }}"
+            id="ai-about-us-content-{{ ai_gen_id }}-{{ i }}"
+          >
+            {% if content_text != blank %}
+              {{ content_text }}
+            {% else %}
+              <p>Add content for this section in the theme editor.</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</about-us-accordion-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AboutUsAccordion{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.accordionItems = this.querySelectorAll('.ai-about-us-item-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.accordionItems.forEach((item) => {
+          const button = item.querySelector('.ai-about-us-header-button-{{ ai_gen_id }}');
+
+          button.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            if (isActive) {
+              item.classList.remove('active');
+              button.setAttribute('aria-expanded', 'false');
+            } else {
+              item.classList.add('active');
+              button.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('about-us-accordion-{{ ai_gen_id }}', AboutUsAccordion{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "About us accordion",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main title",
+      "default": "About Us"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Learn more about our company, values, and mission</p>"
+    },
+    {
+      "type": "header",
+      "content": "Accordion content"
+    },
+    {
+      "type": "text",
+      "id": "accordion_header_1",
+      "label": "Header 1",
+      "default": "Our Story"
+    },
+    {
+      "type": "richtext",
+      "id": "accordion_content_1",
+      "label": "Content 1",
+      "default": "<h3>How We Started</h3><p>Founded in 2020, our company began with a simple mission to provide quality products to our customers. We started as a small team with big dreams and have grown into a trusted brand.</p><h3>Our Growth</h3><p>Over the years, we have expanded our product line and improved our services based on customer feedback and market demands.</p>"
+    },
+    {
+      "type": "text",
+      "id": "accordion_header_2",
+      "label": "Header 2",
+      "default": "Our Mission"
+    },
+    {
+      "type": "richtext",
+      "id": "accordion_content_2",
+      "label": "Content 2",
+      "default": "<h3>What Drives Us</h3><p>We are committed to delivering exceptional value to our customers through innovative products and outstanding service.</p><h3>Our Promise</h3><p>Every product we create is designed with care and attention to detail, ensuring the highest quality standards.</p>"
+    },
+    {
+      "type": "text",
+      "id": "accordion_header_3",
+      "label": "Header 3",
+      "default": "Our Values"
+    },
+    {
+      "type": "richtext",
+      "id": "accordion_content_3",
+      "label": "Content 3",
+      "default": "<h3>Quality First</h3><p>We never compromise on quality and always strive to exceed customer expectations.</p><h3>Customer Focus</h3><p>Our customers are at the heart of everything we do. We listen, learn, and adapt to serve them better.</p>"
+    },
+    {
+      "type": "text",
+      "id": "accordion_header_4",
+      "label": "Header 4",
+      "default": "Our Team"
+    },
+    {
+      "type": "richtext",
+      "id": "accordion_content_4",
+      "label": "Content 4",
+      "default": "<h3>Experienced Professionals</h3><p>Our team consists of dedicated professionals with years of experience in their respective fields.</p><h3>Collaborative Culture</h3><p>We foster a collaborative environment where creativity and innovation thrive.</p>"
+    },
+    {
+      "type": "text",
+      "id": "accordion_header_5",
+      "label": "Header 5",
+      "default": "Contact Us"
+    },
+    {
+      "type": "richtext",
+      "id": "accordion_content_5",
+      "label": "Content 5",
+      "default": "<h3>Get In Touch</h3><p>Have questions or want to learn more? We'd love to hear from you.</p><h3>Support</h3><p>Our customer support team is available to help you with any inquiries or concerns.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Style settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "main_title_color",
+      "label": "Main title color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "item_background_color",
+      "label": "Item background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "header_hover_color",
+      "label": "Header hover color",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Content text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "focus_color",
+      "label": "Focus outline color",
+      "default": "#334fb4"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "main_title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Main title size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "min": 16,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Accordion header size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_header_size",
+      "min": 16,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Content header size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "content_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Content text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "About us accordion"
+    }
+  ]
+}
 {% endschema %}
