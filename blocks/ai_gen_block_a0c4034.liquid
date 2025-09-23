@@ -19,7 +19,8 @@
     height: 100%;
     overflow: hidden;
     animation: ai-auto-scroll-{{ ai_gen_id }} {{ block.settings.scroll_speed }}s linear infinite;
-    width: fit-content;
+    width: 200%;
+    flex-shrink: 0;
   }
 
   .ai-auto-scroll-tab-{{ ai_gen_id }} {
@@ -27,24 +28,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: {{ block.settings.tab_background_color }};
-    color: {{ block.settings.tab_text_color }};
+    color: white;
     font-size: {{ block.settings.font_size }}px;
     font-weight: {{ block.settings.font_weight }};
     white-space: nowrap;
     padding: 0 {{ block.settings.tab_padding }}px;
     min-width: {{ block.settings.min_tab_width }}px;
-    border-right: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  .ai-auto-scroll-tab-{{ ai_gen_id }}:hover {
-    background-color: {{ block.settings.tab_hover_background_color }};
-    color: {{ block.settings.tab_hover_text_color }};
-  }
-
-  .ai-auto-scroll-tab-{{ ai_gen_id }}:last-child {
+  .ai-auto-scroll-tab-{{ ai_gen_id }}:nth-child(13) {
     border-right: none;
   }
 
