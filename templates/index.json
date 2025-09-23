@@ -12,19 +12,139 @@
     "product_detail_carousel_main": {
       "type": "product-detail-carousel",
       "settings": {
-        "title": "Premium Product Features",
-        "subtitle": "Discover the amazing benefits of our product",
-        "description": "<p>Our product is designed with the highest quality materials and cutting-edge technology to provide you with an exceptional experience. Every detail has been carefully crafted to meet your needs and exceed your expectations.</p>",
-        "features": "High quality materials, Advanced technology, Easy to use, Durable construction, Eco-friendly design, 24/7 support",
+        "badge_text": "NEW LAUNCH",
+        "product_title": "COLD COFFEE 1 KG - FERMENTED YEAST PROTEIN",
+        "current_price": "Rs. 2,799",
+        "original_price": "Rs. 3,200",
+        "discount_percent": "-13% OFF",
+        "tax_info": "Incl. of all taxes & shipping",
+        "review_count": "78 Reviews",
+        "product_description": "<p>Love your brew? This one's for you. A cold coffee flavour that actually tastes like a frothy coffee with no artificial flavours.</p>",
+        "points_text": "Earn upto 279 Points on this purchase",
+        "nutrition_1": "24g Protein",
+        "nutrition_2": "5g BCAA",
+        "nutrition_3": "ALL 9 EAAs",
+        "tab_1_name": "1kg - Chocolate",
+        "tab_1_images": "",
+        "tab_2_name": "1kg - Cold Coffee",
+        "tab_2_images": "",
+        "tab_3_name": "1kg - Unflavoured",
+        "tab_3_images": "",
+        "tab_4_name": "Travel Pack - Chocolate",
+        "tab_4_images": "",
+        "tab_5_name": "Travel Pack - Cold Coffee",
+        "tab_5_images": "",
+        "tab_6_name": "Travel Pack - Assorted",
+        "tab_6_images": "",
+        "additional_title": "Why Choose Our Product?",
         "additional_text": "<p>Experience the difference with our premium product. Join thousands of satisfied customers who have made the switch to quality.</p>"
       }
+    },
+    "175861912265dd66f4": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b0e4864_czTNfC": {
+          "type": "ai_gen_block_b0e4864",
+          "settings": {
+            "show_header": false,
+            "title": "Trusted by leading brands",
+            "subtitle": "Join thousands of satisfied customers",
+            "max_width": 1200,
+            "section_padding": 60,
+            "logos_per_view": 4,
+            "mobile_logos_per_view": 2,
+            "logo_spacing": 20,
+            "background_color": "#ffffff",
+            "carousel_border_radius": 8,
+            "transition_duration": 500,
+            "logo_height": 60,
+            "logo_padding": 20,
+            "slide_background": "#f9f9f9",
+            "slide_border_radius": 6,
+            "slide_border_width": 1,
+            "slide_border_color": "#e0e0e0",
+            "logo_grayscale": 50,
+            "logo_opacity": 80,
+            "logo_hover_grayscale": 0,
+            "logo_hover_opacity": 100,
+            "hover_lift": 3,
+            "hover_shadow_y": 6,
+            "hover_shadow_blur": 15,
+            "hover_shadow_opacity": 20,
+            "autoplay": true,
+            "autoplay_speed": 4000,
+            "show_controls": true,
+            "show_nav_buttons": true,
+            "show_dots": true,
+            "show_autoplay_toggle": false,
+            "controls_margin_top": 30,
+            "nav_button_size": 40,
+            "nav_button_color": "#121212",
+            "nav_button_hover_color": "#333333",
+            "nav_button_icon_color": "#ffffff",
+            "dot_size": 8,
+            "dot_color": "#cccccc",
+            "dot_active_color": "#121212",
+            "autoplay_button_color": "#f0f0f0",
+            "autoplay_button_hover_color": "#e0e0e0",
+            "autoplay_button_text_color": "#121212",
+            "autoplay_button_radius": 4,
+            "header_margin_bottom": 40,
+            "title_font_size": 28,
+            "title_color": "#121212",
+            "title_margin_bottom": 12,
+            "title_font_weight": "600",
+            "subtitle_font_size": 16,
+            "subtitle_color": "#666666",
+            "logo_1_enabled": true,
+            "logo_1_url": "",
+            "logo_1_alt": "",
+            "logo_2_enabled": true,
+            "logo_2_url": "",
+            "logo_2_alt": "",
+            "logo_3_enabled": true,
+            "logo_3_url": "",
+            "logo_3_alt": "",
+            "logo_4_enabled": true,
+            "logo_4_url": "",
+            "logo_4_alt": "",
+            "logo_5_enabled": true,
+            "logo_5_url": "",
+            "logo_5_alt": "",
+            "logo_6_enabled": true,
+            "logo_6_url": "",
+            "logo_6_alt": "",
+            "logo_7_enabled": false,
+            "logo_7_url": "",
+            "logo_7_alt": "",
+            "logo_8_enabled": false,
+            "logo_8_url": "",
+            "logo_8_alt": "",
+            "logo_9_enabled": false,
+            "logo_9_url": "",
+            "logo_9_alt": "",
+            "logo_10_enabled": false,
+            "logo_10_url": "",
+            "logo_10_alt": "",
+            "logo_11_enabled": false,
+            "logo_11_url": "",
+            "logo_11_alt": "",
+            "logo_12_enabled": false,
+            "logo_12_url": "",
+            "logo_12_alt": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b0e4864_czTNfC"
+      ],
+      "settings": {}
     },
     "image_banner_rR3Lc9": {
       "type": "image-banner",
       "name": "t:sections.image-banner.presets.name",
       "settings": {
-        "image": "shopify://shop_images/iphone-detects-qr-code.jpg",
-        "image_2": "shopify://shop_images/sliced-pumpkin-pie.jpg",
         "image_overlay_opacity": 0,
         "image_height": "small",
         "image_behavior": "none",
@@ -105,6 +225,68 @@
         "padding_bottom": 36
       }
     },
+    "collapsible_content_dDkrGL": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_r8ar99": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_qHGkQ6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_Gmq8Nh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_MrKjhy": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_r8ar99",
+        "collapsible_row_qHGkQ6",
+        "collapsible_row_Gmq8Nh",
+        "collapsible_row_MrKjhy"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "Collapsible content",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "custom_footer_homepage": {
       "type": "custom-footer",
       "settings": {
@@ -119,10 +301,12 @@
   },
   "order": [
     "product_detail_carousel_main",
+    "175861912265dd66f4",
     "image_banner_rR3Lc9",
     "videocarousel_J3W9VR",
     "image_banner_jYMMGD",
     "featured_collection_rfhQcA",
+    "collapsible_content_dDkrGL",
     "custom_footer_homepage"
   ]
 }
