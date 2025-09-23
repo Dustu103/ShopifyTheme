@@ -1,6 +1,480 @@
+{% doc %}
+  @prompt
+    create a auto moving section with  height 25px which create 12 13 tabs without zero space in between
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-auto-tabs-{{ ai_gen_id }} {
+    width: 100%;
+    height: 25px;
+    overflow: hidden;
+    position: relative;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-auto-tabs-track-{{ ai_gen_id }} {
+    display: flex;
+    height: 100%;
+    animation: ai-auto-scroll-{{ ai_gen_id }} {{ block.settings.scroll_speed }}s linear infinite;
+    will-change: transform;
+  }
+
+  .ai-auto-tabs-track-{{ ai_gen_id }}:hover {
+    animation-play-state: {{ block.settings.pause_on_hover | default: true }};
+  }
+
+  .ai-auto-tabs-item-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.tab_background_color }};
+    color: {{ block.settings.tab_text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    padding: 0 {{ block.settings.tab_padding }}px;
+    white-space: nowrap;
+    border-right: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .ai-auto-tabs-item-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.tab_hover_background_color }};
+    color: {{ block.settings.tab_hover_text_color }};
+  }
+
+  .ai-auto-tabs-item-{{ ai_gen_id }}:last-child {
+    border-right: none;
+  }
+
+  @keyframes ai-auto-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  {% if block.settings.pause_on_hover %}
+    .ai-auto-tabs-track-{{ ai_gen_id }}:hover {
+      animation-play-state: paused;
+    }
+  {% endif %}
+
+  @media screen and (max-width: 749px) {
+    .ai-auto-tabs-item-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.9 }}px;
+      padding: 0 {{ block.settings.tab_padding | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<auto-tabs-{{ ai_gen_id }}
+  class="ai-auto-tabs-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-auto-tabs-track-{{ ai_gen_id }}">
+    {% for i in (1..13) %}
+      {% liquid
+        assign tab_text_key = 'tab_' | append: i | append: '_text'
+        assign tab_link_key = 'tab_' | append: i | append: '_link'
+        assign tab_text = block.settings[tab_text_key]
+        assign tab_link = block.settings[tab_link_key]
+      %}
+      
+      {% if tab_text != blank %}
+        {% if tab_link != blank %}
+          <a href="{{ tab_link }}" class="ai-auto-tabs-item-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </a>
+        {% else %}
+          <div class="ai-auto-tabs-item-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    
+    {% for i in (1..13) %}
+      {% liquid
+        assign tab_text_key = 'tab_' | append: i | append: '_text'
+        assign tab_link_key = 'tab_' | append: i | append: '_link'
+        assign tab_text = block.settings[tab_text_key]
+        assign tab_link = block.settings[tab_link_key]
+      %}
+      
+      {% if tab_text != blank %}
+        {% if tab_link != blank %}
+          <a href="{{ tab_link }}" class="ai-auto-tabs-item-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </a>
+        {% else %}
+          <div class="ai-auto-tabs-item-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</auto-tabs-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AutoTabs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('.ai-auto-tabs-track-{{ ai_gen_id }}');
+        this.setupInfiniteScroll();
+      }
+
+      setupInfiniteScroll() {
+        if (!this.track) return;
+        
+        const items = this.track.children;
+        if (items.length === 0) return;
+
+        let totalWidth = 0;
+        for (let item of items) {
+          totalWidth += item.offsetWidth;
+        }
+
+        if (totalWidth < this.offsetWidth) {
+          this.track.style.animation = 'none';
+        }
+      }
+    }
+
+    customElements.define('auto-tabs-{{ ai_gen_id }}', AutoTabs{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Auto moving tabs",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Animation settings"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll speed",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "tab_background_color",
+      "label": "Tab background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_background_color",
+      "label": "Tab hover background color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_text_color",
+      "label": "Tab hover text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "tab_padding",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Tab padding",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Tab 1"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_text",
+      "label": "Text",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "url",
+      "id": "tab_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_text",
+      "label": "Text",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "tab_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 3"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_text",
+      "label": "Text",
+      "default": "Sale Items"
+    },
+    {
+      "type": "url",
+      "id": "tab_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 4"
+    },
+    {
+      "type": "text",
+      "id": "tab_4_text",
+      "label": "Text",
+      "default": "Featured"
+    },
+    {
+      "type": "url",
+      "id": "tab_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 5"
+    },
+    {
+      "type": "text",
+      "id": "tab_5_text",
+      "label": "Text",
+      "default": "Collections"
+    },
+    {
+      "type": "url",
+      "id": "tab_5_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 6"
+    },
+    {
+      "type": "text",
+      "id": "tab_6_text",
+      "label": "Text",
+      "default": "Trending"
+    },
+    {
+      "type": "url",
+      "id": "tab_6_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 7"
+    },
+    {
+      "type": "text",
+      "id": "tab_7_text",
+      "label": "Text",
+      "default": "Limited Edition"
+    },
+    {
+      "type": "url",
+      "id": "tab_7_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 8"
+    },
+    {
+      "type": "text",
+      "id": "tab_8_text",
+      "label": "Text",
+      "default": "Gift Cards"
+    },
+    {
+      "type": "url",
+      "id": "tab_8_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 9"
+    },
+    {
+      "type": "text",
+      "id": "tab_9_text",
+      "label": "Text",
+      "default": "Accessories"
+    },
+    {
+      "type": "url",
+      "id": "tab_9_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 10"
+    },
+    {
+      "type": "text",
+      "id": "tab_10_text",
+      "label": "Text",
+      "default": "Bundles"
+    },
+    {
+      "type": "url",
+      "id": "tab_10_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 11"
+    },
+    {
+      "type": "text",
+      "id": "tab_11_text",
+      "label": "Text",
+      "default": "Clearance"
+    },
+    {
+      "type": "url",
+      "id": "tab_11_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 12"
+    },
+    {
+      "type": "text",
+      "id": "tab_12_text",
+      "label": "Text",
+      "default": "Pre-Orders"
+    },
+    {
+      "type": "url",
+      "id": "tab_12_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 13"
+    },
+    {
+      "type": "text",
+      "id": "tab_13_text",
+      "label": "Text",
+      "default": "Customer Favorites"
+    },
+    {
+      "type": "url",
+      "id": "tab_13_link",
+      "label": "Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Auto moving tabs"
+    }
+  ]
+}
 {% endschema %}
