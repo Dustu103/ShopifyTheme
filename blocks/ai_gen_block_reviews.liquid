@@ -1,0 +1,664 @@
+{% comment %}
+  AI Generated Block: Reviews Section
+  Features: Masonry layout with 4 columns, dynamic card placement
+{% endcomment %}
+
+{%- assign ai_gen_id = block.id | slice: -8 -%}
+
+<div class="reviews-section-{{ ai_gen_id }}">
+  <div class="reviews-container-{{ ai_gen_id }}">
+    {% if block.settings.section_title != blank %}
+      <h2 class="reviews-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+    {% endif %}
+    
+    {% if block.settings.section_subtitle != blank %}
+      <p class="reviews-subtitle-{{ ai_gen_id }}">{{ block.settings.section_subtitle }}</p>
+    {% endif %}
+    
+    <div class="reviews-grid-{{ ai_gen_id }}" id="reviews-grid-{{ ai_gen_id }}">
+      <!-- Reviews will be dynamically added here by JavaScript -->
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .reviews-section-{{ ai_gen_id }} {
+    background-color: {{ block.settings.background_color | default: '#f8f9fa' }};
+    padding: 4rem 0;
+  }
+
+  .reviews-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .reviews-title-{{ ai_gen_id }} {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: {{ block.settings.title_color | default: '#333' }};
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .reviews-subtitle-{{ ai_gen_id }} {
+    font-size: 1.1rem;
+    color: {{ block.settings.subtitle_color | default: '#666' }};
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+  }
+
+  .reviews-grid-{{ ai_gen_id }} {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .reviews-column-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .review-card-{{ ai_gen_id }} {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  .review-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .review-header-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .review-avatar-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .review-info-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .review-name-{{ ai_gen_id }} {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: {{ block.settings.name_color | default: '#333' }};
+    margin: 0 0 0.25rem 0;
+  }
+
+  .review-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-star-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    fill: #ffc107;
+  }
+
+  .review-comment-{{ ai_gen_id }} {
+    color: {{ block.settings.comment_color | default: '#666' }};
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .review-date-{{ ai_gen_id }} {
+    font-size: 0.9rem;
+    color: #999;
+    text-align: right;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .reviews-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .reviews-section-{{ ai_gen_id }} {
+      padding: 3rem 0;
+    }
+    
+    .reviews-container-{{ ai_gen_id }} {
+      padding: 0 1rem;
+    }
+    
+    .reviews-title-{{ ai_gen_id }} {
+      font-size: 2rem;
+    }
+    
+    .reviews-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .reviews-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+    
+    .review-card-{{ ai_gen_id }} {
+      padding: 1rem;
+    }
+  }
+{% endstyle %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const grid = document.getElementById('reviews-grid-{{ ai_gen_id }}');
+  if (!grid) return;
+
+  // Review data from block settings
+  const reviews = [
+    {% if block.settings.review_1_name != blank %}
+    {
+      name: "{{ block.settings.review_1_name }}",
+      stars: {{ block.settings.review_1_stars | default: 5 }},
+      comment: "{{ block.settings.review_1_comment }}",
+      date: "{{ block.settings.review_1_date }}",
+      image: "{{ block.settings.review_1_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_2_name != blank %}
+    {
+      name: "{{ block.settings.review_2_name }}",
+      stars: {{ block.settings.review_2_stars | default: 5 }},
+      comment: "{{ block.settings.review_2_comment }}",
+      date: "{{ block.settings.review_2_date }}",
+      image: "{{ block.settings.review_2_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_3_name != blank %}
+    {
+      name: "{{ block.settings.review_3_name }}",
+      stars: {{ block.settings.review_3_stars | default: 5 }},
+      comment: "{{ block.settings.review_3_comment }}",
+      date: "{{ block.settings.review_3_date }}",
+      image: "{{ block.settings.review_3_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_4_name != blank %}
+    {
+      name: "{{ block.settings.review_4_name }}",
+      stars: {{ block.settings.review_4_stars | default: 5 }},
+      comment: "{{ block.settings.review_4_comment }}",
+      date: "{{ block.settings.review_4_date }}",
+      image: "{{ block.settings.review_4_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_5_name != blank %}
+    {
+      name: "{{ block.settings.review_5_name }}",
+      stars: {{ block.settings.review_5_stars | default: 5 }},
+      comment: "{{ block.settings.review_5_comment }}",
+      date: "{{ block.settings.review_5_date }}",
+      image: "{{ block.settings.review_5_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_6_name != blank %}
+    {
+      name: "{{ block.settings.review_6_name }}",
+      stars: {{ block.settings.review_6_stars | default: 5 }},
+      comment: "{{ block.settings.review_6_comment }}",
+      date: "{{ block.settings.review_6_date }}",
+      image: "{{ block.settings.review_6_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_7_name != blank %}
+    {
+      name: "{{ block.settings.review_7_name }}",
+      stars: {{ block.settings.review_7_stars | default: 5 }},
+      comment: "{{ block.settings.review_7_comment }}",
+      date: "{{ block.settings.review_7_date }}",
+      image: "{{ block.settings.review_7_image | img_url: '100x100' }}"
+    },
+    {% endif %}
+    {% if block.settings.review_8_name != blank %}
+    {
+      name: "{{ block.settings.review_8_name }}",
+      stars: {{ block.settings.review_8_stars | default: 5 }},
+      comment: "{{ block.settings.review_8_comment }}",
+      date: "{{ block.settings.review_8_date }}",
+      image: "{{ block.settings.review_8_image | img_url: '100x100' }}"
+    }
+    {% endif %}
+  ].filter(review => review.name); // Remove empty reviews
+
+  function createReviewCard(review) {
+    const card = document.createElement('div');
+    card.className = 'review-card-{{ ai_gen_id }}';
+    
+    let starsHtml = '';
+    for (let i = 0; i < 5; i++) {
+      const filled = i < review.stars ? 'currentColor' : 'none';
+      const stroke = i < review.stars ? 'none' : 'currentColor';
+      starsHtml += `<svg class="review-star-{{ ai_gen_id }}" viewBox="0 0 24 24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" 
+              fill="${filled}" stroke="${stroke}" stroke-width="1"/>
+      </svg>`;
+    }
+    
+    card.innerHTML = `
+      <div class="review-header-{{ ai_gen_id }}">
+        ${review.image ? `<img src="${review.image}" alt="${review.name}" class="review-avatar-{{ ai_gen_id }}">` : ''}
+        <div class="review-info-{{ ai_gen_id }}">
+          <h4 class="review-name-{{ ai_gen_id }}">${review.name}</h4>
+          <div class="review-stars-{{ ai_gen_id }}">${starsHtml}</div>
+        </div>
+      </div>
+      ${review.comment ? `<p class="review-comment-{{ ai_gen_id }}">${review.comment}</p>` : ''}
+      ${review.date ? `<div class="review-date-{{ ai_gen_id }}">${review.date}</div>` : ''}
+    `;
+    
+    return card;
+  }
+
+  function initializeColumns() {
+    // Create 4 columns
+    for (let i = 0; i < 4; i++) {
+      const column = document.createElement('div');
+      column.className = 'reviews-column-{{ ai_gen_id }}';
+      grid.appendChild(column);
+    }
+  }
+
+  function getColumnHeights() {
+    const columns = grid.children;
+    const heights = [];
+    for (let i = 0; i < columns.length; i++) {
+      heights.push(columns[i].offsetHeight);
+    }
+    return heights;
+  }
+
+  function addReviewToShortestColumn(review) {
+    const card = createReviewCard(review);
+    
+    // Find the column with minimum height
+    const heights = getColumnHeights();
+    const minHeight = Math.min(...heights);
+    const minIndex = heights.indexOf(minHeight);
+    
+    // Add card to the shortest column
+    grid.children[minIndex].appendChild(card);
+  }
+
+  // Initialize columns first
+  initializeColumns();
+  
+  // Add reviews with animation
+  reviews.forEach((review, index) => {
+    setTimeout(() => {
+      addReviewToShortestColumn(review);
+    }, index * 200); // Stagger the animation
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Reviews Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Section Subtitle",
+      "default": "See what our customers are saying about our products"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "comment_color",
+      "label": "Comment Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Review 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_1_image",
+      "label": "Review 1 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_1_name",
+      "label": "Review 1 Name",
+      "default": "Sarah Johnson"
+    },
+    {
+      "type": "range",
+      "id": "review_1_stars",
+      "label": "Review 1 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_1_comment",
+      "label": "Review 1 Comment",
+      "default": "Amazing product! Exceeded my expectations. Highly recommend to everyone."
+    },
+    {
+      "type": "text",
+      "id": "review_1_date",
+      "label": "Review 1 Date",
+      "default": "2 days ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_2_image",
+      "label": "Review 2 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_2_name",
+      "label": "Review 2 Name",
+      "default": "Mike Chen"
+    },
+    {
+      "type": "range",
+      "id": "review_2_stars",
+      "label": "Review 2 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "textarea",
+      "id": "review_2_comment",
+      "label": "Review 2 Comment",
+      "default": "Great quality and fast shipping. Will definitely order again."
+    },
+    {
+      "type": "text",
+      "id": "review_2_date",
+      "label": "Review 2 Date",
+      "default": "1 week ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_3_image",
+      "label": "Review 3 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_3_name",
+      "label": "Review 3 Name",
+      "default": "Emily Davis"
+    },
+    {
+      "type": "range",
+      "id": "review_3_stars",
+      "label": "Review 3 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_3_comment",
+      "label": "Review 3 Comment",
+      "default": "Perfect! Exactly what I was looking for. Customer service was excellent too."
+    },
+    {
+      "type": "text",
+      "id": "review_3_date",
+      "label": "Review 3 Date",
+      "default": "3 days ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_4_image",
+      "label": "Review 4 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_4_name",
+      "label": "Review 4 Name",
+      "default": "David Wilson"
+    },
+    {
+      "type": "range",
+      "id": "review_4_stars",
+      "label": "Review 4 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "textarea",
+      "id": "review_4_comment",
+      "label": "Review 4 Comment",
+      "default": "Good product overall, but could be better."
+    },
+    {
+      "type": "text",
+      "id": "review_4_date",
+      "label": "Review 4 Date",
+      "default": "5 days ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_5_image",
+      "label": "Review 5 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_5_name",
+      "label": "Review 5 Name",
+      "default": "Lisa Brown"
+    },
+    {
+      "type": "range",
+      "id": "review_5_stars",
+      "label": "Review 5 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_5_comment",
+      "label": "Review 5 Comment",
+      "default": "Outstanding quality and value for money. Very satisfied with my purchase."
+    },
+    {
+      "type": "text",
+      "id": "review_5_date",
+      "label": "Review 5 Date",
+      "default": "1 week ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_6_image",
+      "label": "Review 6 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_6_name",
+      "label": "Review 6 Name",
+      "default": "Alex Rodriguez"
+    },
+    {
+      "type": "range",
+      "id": "review_6_stars",
+      "label": "Review 6 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "textarea",
+      "id": "review_6_comment",
+      "label": "Review 6 Comment",
+      "default": "Fast delivery and good packaging. Product works as described."
+    },
+    {
+      "type": "text",
+      "id": "review_6_date",
+      "label": "Review 6 Date",
+      "default": "4 days ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_7_image",
+      "label": "Review 7 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_7_name",
+      "label": "Review 7 Name",
+      "default": "Maria Garcia"
+    },
+    {
+      "type": "range",
+      "id": "review_7_stars",
+      "label": "Review 7 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "textarea",
+      "id": "review_7_comment",
+      "label": "Review 7 Comment",
+      "default": "Love it! Will definitely buy again. Great customer service."
+    },
+    {
+      "type": "text",
+      "id": "review_7_date",
+      "label": "Review 7 Date",
+      "default": "6 days ago"
+    },
+    {
+      "type": "header",
+      "content": "Review 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "review_8_image",
+      "label": "Review 8 Image"
+    },
+    {
+      "type": "text",
+      "id": "review_8_name",
+      "label": "Review 8 Name",
+      "default": "John Smith"
+    },
+    {
+      "type": "range",
+      "id": "review_8_stars",
+      "label": "Review 8 Stars",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "textarea",
+      "id": "review_8_comment",
+      "label": "Review 8 Comment",
+      "default": "Good product, arrived on time. Happy with the purchase."
+    },
+    {
+      "type": "text",
+      "id": "review_8_date",
+      "label": "Review 8 Date",
+      "default": "2 weeks ago"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Section"
+    }
+  ]
+}
+{% endschema %}
