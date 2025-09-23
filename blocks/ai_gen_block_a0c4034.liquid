@@ -11,11 +11,13 @@
     overflow: hidden;
     position: relative;
     width: 100%;
+    display: flex;
   }
 
   .ai-auto-scroll-track-{{ ai_gen_id }} {
     display: flex;
     height: 100%;
+    overflow: hidden;
     animation: ai-auto-scroll-{{ ai_gen_id }} {{ block.settings.scroll_speed }}s linear infinite;
     width: fit-content;
   }

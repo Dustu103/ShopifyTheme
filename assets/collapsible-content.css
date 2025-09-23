@@ -1,128 +1,268 @@
+/* Custom FAQ Section Styling to match the design image */
+
+/* Reset and override default accordion styles */
+.collapsible-content .accordion {
+  background: #f0e6d8 !important; /* Light peach/cream background for FAQ items */
+  border-radius: 6px !important;
+  margin-bottom: 0.5rem !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease !important;
+  margin-top: 0 !important;
+  overflow: hidden !important;
+}
+
+.collapsible-content .accordion:hover {
+  background: #ede0d0 !important; /* Slightly darker on hover */
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* FAQ Section Heading */
+.collapsible-content .collapsible-content__heading {
+  font-size: 4.2rem !important;
+  font-weight: 900 !important;
+  color: #ff4500 !important; /* Orange-red color */
+  text-align: left !important;
+  line-height: 0.8 !important;
+  margin-bottom: 2.5rem !important;
+  letter-spacing: -0.01em !important;
+  text-transform: uppercase !important;
+  margin-top: 0 !important;
+  font-family: Arial, sans-serif !important;
+  font-stretch: condensed !important;
+}
+
+/* FAQ Item Headers */
+.collapsible-content .accordion__title {
+  font-size: 1.1rem !important;
+  font-weight: 800 !important;
+  color: #1a1a1a !important;
+  padding: 1.2rem 1.5rem !important;
+  margin: 0 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+  display: inline-block !important;
+  max-width: calc(100% - 3rem) !important;
+  font-family: Arial, sans-serif !important;
+  font-stretch: condensed !important;
+}
+
+/* Accordion Summary Styling */
+.collapsible-content .accordion summary {
+  position: relative !important;
+  list-style: none !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.collapsible-content .accordion summary::-webkit-details-marker {
+  display: none !important;
+}
+
+/* Hide default caret icon */
+.collapsible-content .accordion .icon-caret {
+  display: none !important;
+}
+
+/* Custom Plus Icon */
+.collapsible-content .accordion summary::after {
+  content: '+' !important;
+  font-size: 1.1rem !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  background: #1a1a1a !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+  margin-left: 0.75rem !important;
+  margin-right: 0.75rem !important;
+}
+
+.collapsible-content .accordion[open] summary::after {
+  content: '−' !important;
+  transform: none !important;
+}
+
+/* Content Area */
+.collapsible-content .accordion__content {
+  padding: 0 1.5rem 1.5rem 1.5rem !important;
+  color: #4a4a4a !important;
+  line-height: 1.6 !important;
+  font-size: 1rem !important;
+  margin-bottom: 0 !important;
+  word-break: break-word !important;
+  overflow-x: visible !important;
+}
+
+.collapsible-content .accordion__content p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Section Background */
 .collapsible-content {
-  position: relative;
-  z-index: 0;
+  background: #f5f0e8 !important; /* Solid peach/cream background */
+  padding: 4rem 0 !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
 }
 
-.collapsible-section-layout {
-  padding-bottom: 5rem;
-  padding-top: 5rem;
+/* Override default Shopify grid styles */
+.collapsible-content .grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 3rem !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 2rem !important;
+  box-sizing: border-box !important;
 }
 
+/* Force 2 columns on desktop, override tablet breakpoint */
 @media screen and (min-width: 750px) {
-  .collapsible-section-layout {
-    padding-bottom: 7rem;
-    padding-top: 7rem;
+  .collapsible-content .grid--2-col-tablet {
+    grid-template-columns: 1fr 1fr !important;
+    display: grid !important;
   }
 }
 
-/* Needed for gradient continuity with or without animation so that transparent PNG images come up as we would expect */
-.collapsible-content__media {
-  background: transparent;
-}
-
-.collapsible-content__media--small {
-  height: 19.4rem;
-}
-
-.collapsible-content__media--large {
-  height: 43.5rem;
-}
-
-@media screen and (min-width: 750px) {
-  .collapsible-content__media--small {
-    height: 31.4rem;
-  }
-
-  .collapsible-content__media--large {
-    height: 69.5rem;
+/* Large screens - prevent excessive width */
+@media screen and (min-width: 1400px) {
+  .collapsible-content .grid {
+    max-width: 1200px !important;
+    padding: 0 3rem !important;
   }
 }
 
-@media screen and (min-width: 750px) {
-  .collapsible-content__grid--reverse {
-    flex-direction: row-reverse;
+/* Grid Layout - Side by Side Layout with 60/40 split */
+.collapsible-content .collapsible-content__grid {
+  display: grid !important;
+  grid-template-columns: 1.5fr 1fr !important; /* 60/40 split - FAQ gets more space */
+  gap: 3rem !important;
+  align-items: stretch !important;
+  min-height: 500px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure both grid items take exactly 50% width */
+.collapsible-content .grid__item {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* Left FAQ Column (60% width) - Reorder to appear first */
+.collapsible-content .grid__item:last-child {
+  background: #f5f0e8 !important;
+  padding: 3rem 2.5rem !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  order: 1 !important; /* Move FAQ to left side */
+}
+
+/* Right Image Column (50% width) - Reorder to appear second */
+.collapsible-content .grid__item:first-child {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  order: 2 !important; /* Move image to right side */
+}
+
+/* Header styling within left div */
+.collapsible-content .grid__item .collapsible-content__header {
+  margin-bottom: 2rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Image Styling */
+.collapsible-content .collapsible-content__media {
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .collapsible-content {
+    padding: 2rem 0 !important;
+  }
+  
+  .collapsible-content .grid {
+    padding: 0 1rem !important;
+    max-width: 100% !important;
+  }
+  
+  .collapsible-content .collapsible-content__heading {
+    font-size: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .collapsible-content .accordion__title {
+    font-size: 0.85rem !important;
+    padding: 0.9rem 1rem !important;
+  }
+  
+  .collapsible-content .accordion__content {
+    padding: 0 1rem 0.9rem 1rem !important;
+  }
+  
+  .collapsible-content .grid__item:last-child {
+    padding: 1.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Mobile: Stack vertically */
+  .collapsible-content .collapsible-content__grid,
+  .collapsible-content .grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  .collapsible-content .grid__item {
+    width: 100% !important;
   }
 }
 
-.collapsible-content-wrapper-narrow {
-  margin: 0 auto;
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
-  max-width: 73.4rem;
-}
-
-.collapsible-content__header {
-  word-break: break-word;
-}
-
-.collapsible-content__heading {
-  margin-bottom: 2rem;
-  margin-top: 0;
-}
-
-@media screen and (min-width: 750px) {
-  .collapsible-content__heading {
-    margin-bottom: 3rem;
+@media screen and (max-width: 480px) {
+  .collapsible-content .collapsible-content__heading {
+    font-size: 2.5rem !important;
   }
-}
-
-.collapsible-none-layout .accordion + .accordion {
-  border-top: 0;
-}
-
-.collapsible-row-layout .accordion:not(:first-child):not(.color-scheme-1) {
-  margin-top: 1rem;
-}
-
-.caption-with-letter-spacing + h2 {
-  margin-top: 1rem;
-}
-
-@media screen and (min-width: 750px) {
-  .collapsible-content .accordion {
-    margin-top: 0;
+  
+  .collapsible-content .accordion__title {
+    font-size: 0.85rem !important;
+    padding: 0.9rem 1rem !important;
   }
-}
-
-.collapsible-row-layout .accordion {
-  border: var(--text-boxes-border-width) solid rgba(var(--color-foreground), var(--text-boxes-border-opacity));
-  margin-bottom: 1.5rem;
-  /* Needed for gradient continuity with or without animation, the transform scopes the gradient to its container which happens already when animation are turned on */
-  transform: perspective(0);
-}
-
-.collapsible-row-layout .accordion summary,
-.collapsible-row-layout .accordion .accordion__content {
-  padding: 1.5rem;
-}
-
-.collapsible-row-layout .accordion .accordion__content {
-  padding-top: 0;
-}
-
-.collapsible-content summary:hover {
-  background: rgba(var(--color-foreground), 0.04);
-}
-
-.collapsible-content summary:hover .accordion__title {
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-}
-
-/* check for flexbox gap in older Safari versions */
-@supports not (inset: 10px) {
-  @media screen and (min-width: 750px) {
-    .collapsible-content__grid:not(.collapsible-content__grid--reverse) .grid__item:last-child,
-    .collapsible-content__grid--reverse .collapsible-content__grid-item {
-      padding-left: 5rem;
-      padding-right: 0;
-    }
+  
+  .collapsible-content .accordion__content {
+    padding: 0 1rem 0.9rem 1rem !important;
   }
-
-  @media screen and (min-width: 990px) {
-    .collapsible-content__grid:not(.collapsible-content__grid--reverse) .grid__item:last-child,
-    .collapsible-content__grid--reverse .collapsible-content__grid-item {
-      padding-left: 7rem;
-    }
+  
+  .collapsible-content .grid__item:first-child {
+    padding: 1rem !important;
   }
 }
