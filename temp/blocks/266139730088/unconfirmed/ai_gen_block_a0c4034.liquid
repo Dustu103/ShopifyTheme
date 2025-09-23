@@ -1,6 +1,480 @@
+{% doc %}
+  @prompt
+    generate a auto scroll section with height 60px with red back background containing 12 13 tabs without any space in between them
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-auto-scroll-container-{{ ai_gen_id }} {
+    height: 60px;
+    background-color: {{ block.settings.background_color }};
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-auto-scroll-track-{{ ai_gen_id }} {
+    display: flex;
+    height: 100%;
+    animation: ai-auto-scroll-{{ ai_gen_id }} {{ block.settings.scroll_speed }}s linear infinite;
+    width: fit-content;
+  }
+
+  .ai-auto-scroll-tab-{{ ai_gen_id }} {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: {{ block.settings.tab_background_color }};
+    color: {{ block.settings.tab_text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    white-space: nowrap;
+    padding: 0 {{ block.settings.tab_padding }}px;
+    min-width: {{ block.settings.min_tab_width }}px;
+    border-right: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .ai-auto-scroll-tab-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.tab_hover_background_color }};
+    color: {{ block.settings.tab_hover_text_color }};
+  }
+
+  .ai-auto-scroll-tab-{{ ai_gen_id }}:last-child {
+    border-right: none;
+  }
+
+  @keyframes ai-auto-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .ai-auto-scroll-container-{{ ai_gen_id }}:hover .ai-auto-scroll-track-{{ ai_gen_id }} {
+    animation-play-state: {{ block.settings.pause_on_hover | default: true | ternary: 'paused', 'running' }};
+  }
+{% endstyle %}
+
+<auto-scroll-tabs-{{ ai_gen_id }}
+  class="ai-auto-scroll-container-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-auto-scroll-track-{{ ai_gen_id }}">
+    {% for i in (1..13) %}
+      {% liquid
+        assign tab_text_key = 'tab_' | append: i | append: '_text'
+        assign tab_link_key = 'tab_' | append: i | append: '_link'
+        assign tab_text = block.settings[tab_text_key]
+        assign tab_link = block.settings[tab_link_key]
+      %}
+      
+      {% if tab_text != blank %}
+        {% if tab_link != blank %}
+          <a href="{{ tab_link }}" class="ai-auto-scroll-tab-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </a>
+        {% else %}
+          <div class="ai-auto-scroll-tab-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    
+    {% for i in (1..13) %}
+      {% liquid
+        assign tab_text_key = 'tab_' | append: i | append: '_text'
+        assign tab_link_key = 'tab_' | append: i | append: '_link'
+        assign tab_text = block.settings[tab_text_key]
+        assign tab_link = block.settings[tab_link_key]
+      %}
+      
+      {% if tab_text != blank %}
+        {% if tab_link != blank %}
+          <a href="{{ tab_link }}" class="ai-auto-scroll-tab-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </a>
+        {% else %}
+          <div class="ai-auto-scroll-tab-{{ ai_gen_id }}">
+            {{ tab_text }}
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</auto-scroll-tabs-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AutoScrollTabs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('.ai-auto-scroll-track-{{ ai_gen_id }}');
+        this.tabs = this.querySelectorAll('.ai-auto-scroll-tab-{{ ai_gen_id }}');
+        
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.tabs.forEach((tab) => {
+          tab.addEventListener('click', (event) => {
+            if (!tab.href) {
+              event.preventDefault();
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('auto-scroll-tabs-{{ ai_gen_id }}', AutoScrollTabs{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Auto scroll tabs",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ff0000"
+    },
+    {
+      "type": "color",
+      "id": "tab_background_color",
+      "label": "Tab background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_background_color",
+      "label": "Tab hover background color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_text_color",
+      "label": "Tab hover text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "tab_padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Tab padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "min_tab_width",
+      "min": 80,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Minimum tab width",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll speed",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Tab 1"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_text",
+      "label": "Tab text",
+      "default": "Featured Products"
+    },
+    {
+      "type": "url",
+      "id": "tab_1_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_text",
+      "label": "Tab text",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "url",
+      "id": "tab_2_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 3"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_text",
+      "label": "Tab text",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "tab_3_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 4"
+    },
+    {
+      "type": "text",
+      "id": "tab_4_text",
+      "label": "Tab text",
+      "default": "Sale Items"
+    },
+    {
+      "type": "url",
+      "id": "tab_4_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 5"
+    },
+    {
+      "type": "text",
+      "id": "tab_5_text",
+      "label": "Tab text",
+      "default": "Categories"
+    },
+    {
+      "type": "url",
+      "id": "tab_5_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 6"
+    },
+    {
+      "type": "text",
+      "id": "tab_6_text",
+      "label": "Tab text",
+      "default": "Collections"
+    },
+    {
+      "type": "url",
+      "id": "tab_6_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 7"
+    },
+    {
+      "type": "text",
+      "id": "tab_7_text",
+      "label": "Tab text",
+      "default": "About Us"
+    },
+    {
+      "type": "url",
+      "id": "tab_7_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 8"
+    },
+    {
+      "type": "text",
+      "id": "tab_8_text",
+      "label": "Tab text",
+      "default": "Contact"
+    },
+    {
+      "type": "url",
+      "id": "tab_8_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 9"
+    },
+    {
+      "type": "text",
+      "id": "tab_9_text",
+      "label": "Tab text",
+      "default": "Support"
+    },
+    {
+      "type": "url",
+      "id": "tab_9_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 10"
+    },
+    {
+      "type": "text",
+      "id": "tab_10_text",
+      "label": "Tab text",
+      "default": "Blog"
+    },
+    {
+      "type": "url",
+      "id": "tab_10_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 11"
+    },
+    {
+      "type": "text",
+      "id": "tab_11_text",
+      "label": "Tab text",
+      "default": "Reviews"
+    },
+    {
+      "type": "url",
+      "id": "tab_11_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 12"
+    },
+    {
+      "type": "text",
+      "id": "tab_12_text",
+      "label": "Tab text",
+      "default": "FAQ"
+    },
+    {
+      "type": "url",
+      "id": "tab_12_link",
+      "label": "Tab link"
+    },
+    {
+      "type": "header",
+      "content": "Tab 13"
+    },
+    {
+      "type": "text",
+      "id": "tab_13_text",
+      "label": "Tab text",
+      "default": "Shipping Info"
+    },
+    {
+      "type": "url",
+      "id": "tab_13_link",
+      "label": "Tab link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Auto scroll tabs"
+    }
+  ]
+}
 {% endschema %}
