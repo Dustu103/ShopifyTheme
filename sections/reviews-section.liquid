@@ -352,9 +352,7 @@
 
   function getColumnHeights() {
     const columns = document.querySelectorAll('.reviews-column');
-    const heights = Array.from(columns).map(column => column.offsetHeight);
-    console.log('Current column heights:', heights);
-    return heights;
+    return Array.from(columns).map(column => column.offsetHeight);
   }
 
   function findShortestColumn() {
@@ -369,7 +367,6 @@
       }
     }
     
-    console.log(`Shortest column: ${shortestIndex} (height: ${shortestHeight})`);
     return shortestIndex;
   }
 
@@ -378,24 +375,17 @@
     
     // Clear all columns
     columns.forEach(column => column.innerHTML = '');
-    console.log('Starting distribution for', visibleReviews, 'reviews');
     
     // Distribute reviews one by one
     for (let i = 0; i < visibleReviews; i++) {
       const review = allReviews[i];
       const card = createReviewCard(review, i);
       
-      console.log(`\n--- Card ${i + 1} (${review.name}) ---`);
-      
       // Find shortest column
       const shortestColumnIndex = findShortestColumn();
       
       // Add card to shortest column
       columns[shortestColumnIndex].appendChild(card);
-      
-      // Log heights after adding card
-      const newHeights = getColumnHeights();
-      console.log(`Added to column ${shortestColumnIndex + 1}. New heights:`, newHeights);
     }
   }
 
