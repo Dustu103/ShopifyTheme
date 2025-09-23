@@ -1,6 +1,441 @@
+{% doc %}
+  @prompt
+    generate a section which is about us section having a colapsed  header with description ..the header will be in colapsed on click it will exapand and open the description description contain header and paragraph all the header in description in red  like there will 4 5 header with paragraph in description , no not like that simple collapsed header those description header wiull not visible untill the header is opened, yes great remove those our story our mission our values sub header ... but add those property in about us, remove all the collapsed headers there will be one collapsed header that is About us, great now see inside description no cards will there all divs should be after other not beside company history our team is rightly aligned
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-about-us-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-about-accordion-{{ ai_gen_id }} {
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-about-header-{{ ai_gen_id }} {
+    background-color: {{ block.settings.header_background_color }};
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .ai-about-header-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.header_hover_color }};
+  }
+
+  .ai-about-header-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.header_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.header_text_color }};
+    margin: 0;
+  }
+
+  .ai-about-header-icon-{{ ai_gen_id }} {
+    width: 24px;
+    height: 24px;
+    color: {{ block.settings.header_text_color }};
+    transition: transform 0.3s ease;
+  }
+
+  .ai-about-header-{{ ai_gen_id }}[aria-expanded="true"] .ai-about-header-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-about-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: {{ block.settings.content_background_color }};
+  }
+
+  .ai-about-content-{{ ai_gen_id }}.active {
+    max-height: 2000px;
+  }
+
+  .ai-about-content-inner-{{ ai_gen_id }} {
+    padding: 30px;
+  }
+
+  .ai-about-section-{{ ai_gen_id }} {
+    margin-bottom: 40px;
+  }
+
+  .ai-about-section-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-about-section-header-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_header_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.section_header_color }};
+    margin: 0 0 15px 0;
+  }
+
+  .ai-about-section-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.content_font_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.content_text_color }};
+    margin: 0;
+  }
+
+  .ai-about-section-{{ ai_gen_id }}.right-aligned {
+    text-align: right;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-about-us-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding | times: 0.7 }}px 15px;
+    }
+
+    .ai-about-header-{{ ai_gen_id }} {
+      padding: 15px;
+    }
+
+    .ai-about-content-inner-{{ ai_gen_id }} {
+      padding: 20px;
+    }
+
+    .ai-about-section-{{ ai_gen_id }} {
+      margin-bottom: 30px;
+    }
+
+    .ai-about-section-{{ ai_gen_id }}.right-aligned {
+      text-align: left;
+    }
+  }
+{% endstyle %}
+
+<about-us-accordion-{{ ai_gen_id }}
+  class="ai-about-us-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-about-accordion-{{ ai_gen_id }}">
+    <button
+      class="ai-about-header-{{ ai_gen_id }}"
+      aria-expanded="false"
+      aria-controls="ai-about-content-{{ ai_gen_id }}"
+    >
+      <h2 class="ai-about-header-title-{{ ai_gen_id }}">{{ block.settings.main_header }}</h2>
+      <svg
+        class="ai-about-header-icon-{{ ai_gen_id }}"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="6,9 12,15 18,9"></polyline>
+      </svg>
+    </button>
+
+    <div
+      id="ai-about-content-{{ ai_gen_id }}"
+      class="ai-about-content-{{ ai_gen_id }}"
+    >
+      <div class="ai-about-content-inner-{{ ai_gen_id }}">
+        {% if block.settings.our_story_header != blank or block.settings.our_story_text != blank %}
+          <div class="ai-about-section-{{ ai_gen_id }}">
+            {% if block.settings.our_story_header != blank %}
+              <h3 class="ai-about-section-header-{{ ai_gen_id }}">{{ block.settings.our_story_header }}</h3>
+            {% endif %}
+            {% if block.settings.our_story_text != blank %}
+              <div class="ai-about-section-text-{{ ai_gen_id }}">{{ block.settings.our_story_text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.our_mission_header != blank or block.settings.our_mission_text != blank %}
+          <div class="ai-about-section-{{ ai_gen_id }}">
+            {% if block.settings.our_mission_header != blank %}
+              <h3 class="ai-about-section-header-{{ ai_gen_id }}">{{ block.settings.our_mission_header }}</h3>
+            {% endif %}
+            {% if block.settings.our_mission_text != blank %}
+              <div class="ai-about-section-text-{{ ai_gen_id }}">{{ block.settings.our_mission_text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.our_values_header != blank or block.settings.our_values_text != blank %}
+          <div class="ai-about-section-{{ ai_gen_id }}">
+            {% if block.settings.our_values_header != blank %}
+              <h3 class="ai-about-section-header-{{ ai_gen_id }}">{{ block.settings.our_values_header }}</h3>
+            {% endif %}
+            {% if block.settings.our_values_text != blank %}
+              <div class="ai-about-section-text-{{ ai_gen_id }}">{{ block.settings.our_values_text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.company_history_header != blank or block.settings.company_history_text != blank %}
+          <div class="ai-about-section-{{ ai_gen_id }} right-aligned">
+            {% if block.settings.company_history_header != blank %}
+              <h3 class="ai-about-section-header-{{ ai_gen_id }}">{{ block.settings.company_history_header }}</h3>
+            {% endif %}
+            {% if block.settings.company_history_text != blank %}
+              <div class="ai-about-section-text-{{ ai_gen_id }}">{{ block.settings.company_history_text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if block.settings.our_team_header != blank or block.settings.our_team_text != blank %}
+          <div class="ai-about-section-{{ ai_gen_id }} right-aligned">
+            {% if block.settings.our_team_header != blank %}
+              <h3 class="ai-about-section-header-{{ ai_gen_id }}">{{ block.settings.our_team_header }}</h3>
+            {% endif %}
+            {% if block.settings.our_team_text != blank %}
+              <div class="ai-about-section-text-{{ ai_gen_id }}">{{ block.settings.our_team_text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</about-us-accordion-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class AboutUsAccordion{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.header = this.querySelector('.ai-about-header-{{ ai_gen_id }}');
+        this.content = this.querySelector('.ai-about-content-{{ ai_gen_id }}');
+        
+        if (this.header && this.content) {
+          this.header.addEventListener('click', this.toggleAccordion.bind(this));
+        }
+      }
+
+      toggleAccordion() {
+        const isExpanded = this.header.getAttribute('aria-expanded') === 'true';
+        
+        this.header.setAttribute('aria-expanded', !isExpanded);
+        this.content.classList.toggle('active');
+      }
+    }
+
+    customElements.define('about-us-accordion-{{ ai_gen_id }}', AboutUsAccordion{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "About us accordion",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main header"
+    },
+    {
+      "type": "text",
+      "id": "main_header",
+      "label": "Main header text",
+      "default": "About Us"
+    },
+    {
+      "type": "header",
+      "content": "Our story"
+    },
+    {
+      "type": "text",
+      "id": "our_story_header",
+      "label": "Our story header",
+      "default": "Our Story"
+    },
+    {
+      "type": "richtext",
+      "id": "our_story_text",
+      "label": "Our story text",
+      "default": "<p>We started our journey with a simple mission: to create products that make a difference in people's lives.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Our mission"
+    },
+    {
+      "type": "text",
+      "id": "our_mission_header",
+      "label": "Our mission header",
+      "default": "Our Mission"
+    },
+    {
+      "type": "richtext",
+      "id": "our_mission_text",
+      "label": "Our mission text",
+      "default": "<p>To deliver exceptional quality products while maintaining sustainable practices and building lasting relationships with our customers.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Our values"
+    },
+    {
+      "type": "text",
+      "id": "our_values_header",
+      "label": "Our values header",
+      "default": "Our Values"
+    },
+    {
+      "type": "richtext",
+      "id": "our_values_text",
+      "label": "Our values text",
+      "default": "<p>Integrity, innovation, and customer satisfaction are at the core of everything we do.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Company history"
+    },
+    {
+      "type": "text",
+      "id": "company_history_header",
+      "label": "Company history header",
+      "default": "Company History"
+    },
+    {
+      "type": "richtext",
+      "id": "company_history_text",
+      "label": "Company history text",
+      "default": "<p>Founded in 2020, we have grown from a small startup to a trusted brand serving customers worldwide.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Our team"
+    },
+    {
+      "type": "text",
+      "id": "our_team_header",
+      "label": "Our team header",
+      "default": "Our Team"
+    },
+    {
+      "type": "richtext",
+      "id": "our_team_text",
+      "label": "Our team text",
+      "default": "<p>Our diverse team of experts brings together years of experience and passion for excellence.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Style settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "header_background_color",
+      "label": "Header background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "header_hover_color",
+      "label": "Header hover color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "content_background_color",
+      "label": "Content background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_header_color",
+      "label": "Section header color",
+      "default": "#dc2626"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Content text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Header font size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_header_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Section header font size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Content font size",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "About us accordion"
+    }
+  ]
+}
 {% endschema %}
