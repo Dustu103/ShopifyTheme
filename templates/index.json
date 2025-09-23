@@ -195,6 +195,41 @@
         "show_text_below": true
       }
     },
+    "175863139786b2f9d4": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_reviews_ABC123": {
+          "type": "ai_gen_block_reviews",
+          "settings": {
+            "section_title": "Customer Reviews",
+            "section_subtitle": "See what our customers are saying about our products",
+            "background_color": "#f8f9fa",
+            "title_color": "#333333",
+            "subtitle_color": "#666666",
+            "card_background_color": "#ffffff",
+            "card_text_color": "#333333",
+            "card_border_color": "#e0e0e0",
+            "star_color": "#ffc107",
+            "show_images": true,
+            "show_dates": true,
+            "show_ratings": true,
+            "columns_desktop": 4,
+            "columns_tablet": 2,
+            "columns_mobile": 1,
+            "card_padding": 20,
+            "card_border_radius": 8,
+            "card_shadow": "0 2px 8px rgba(0,0,0,0.1)",
+            "section_padding_top": 60,
+            "section_padding_bottom": 60
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_reviews_ABC123"
+      ],
+      "settings": {}
+    },
     "175863139786b2f9d3": {
       "type": "_blocks",
       "blocks": {
@@ -399,6 +434,7 @@
     "image_banner_rR3Lc9",
     "videocarousel_J3W9VR",
     "image_banner_jYMMGD",
+    "175863139786b2f9d4",
     "175863139786b2f9d3",
     "collapsible_content_dDkrGL",
     "featured_collection_9d4t9A",
