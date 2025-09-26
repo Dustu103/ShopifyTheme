@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
   .drawer__contents {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 10px;
   }
 
   .cart-items {
@@ -124,88 +124,13 @@ document.addEventListener('DOMContentLoaded', function() {
     border-collapse: collapse;
   }
 
-  .cart-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-  }
+  /* Old cart item CSS removed - using component-cart-drawer.css instead */
 
-  .cart-item__image {
-    width: 60px;
-    height: 60px;
-    margin-right: 15px;
-  }
+  /* Old cart item CSS removed - using component-cart-drawer.css instead */
 
-  .cart-item__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-  }
+  /* Old cart item CSS removed - using component-cart-drawer.css instead */
 
-  .cart-item__details {
-    flex: 1;
-  }
-
-  .cart-item__name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #000;
-    margin: 0 0 5px 0;
-  }
-
-  .cart-item__price {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .cart-item__price-current {
-    color: #e32402;
-    font-weight: 600;
-    font-size: 16px;
-  }
-
-  .cart-item__price-original {
-    color: #999;
-    text-decoration: line-through;
-    font-size: 14px;
-  }
-
-  .cart-item__quantity {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-  }
-
-  .quantity__button {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ddd;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-
-  .quantity__input {
-    width: 40px;
-    height: 30px;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-
-  .cart-item__remove {
-    background: none;
-    border: none;
-    color: #999;
-    cursor: pointer;
-    padding: 5px;
-  }
+  /* Old cart item CSS removed - using component-cart-drawer.css instead */
 
   /* Promotional Banner */
   .cart-drawer__promo-banner {
@@ -279,6 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     padding: 20px;
     border-top: 1px solid #eee;
     background: white;
+    margin-bottom: 100px;
   }
 
   .cart-drawer__recommendations-title {
@@ -497,8 +423,8 @@ document.addEventListener('DOMContentLoaded', function() {
   /* Desktop Responsive */
   @media (min-width: 769px) {
     .enhanced-cart-drawer .drawer__inner {
-      width: 450px !important;
-      max-width: 450px !important;
+      width: 550px !important;
+      max-width: 550px !important;
     }
   }
 </style>
@@ -604,36 +530,10 @@ document.addEventListener('DOMContentLoaded', function() {
             {%- if cart != empty -%}
               <div class="drawer__cart-items-wrapper">
                 <table class="cart-items" role="table">
-                  <thead role="rowgroup">
-                    <tr role="row">
-                      <th id="CartDrawer-ColumnProductImage" role="columnheader">
-                        <span class="visually-hidden">{{ 'sections.cart.headings.image' | t }}</span>
-                      </th>
-                      <th
-                        id="CartDrawer-ColumnProduct"
-                        class="caption-with-letter-spacing"
-                        scope="col"
-                        role="columnheader"
-                      >
-                        {{ 'sections.cart.headings.product' | t }}
-                      </th>
-                      <th
-                        id="CartDrawer-ColumnTotal"
-                        class="right caption-with-letter-spacing"
-                        scope="col"
-                        role="columnheader"
-                      >
-                        {{ 'sections.cart.headings.total' | t }}
-                      </th>
-                      <th id="CartDrawer-ColumnQuantity" role="columnheader">
-                        <span class="visually-hidden">{{ 'sections.cart.headings.quantity' | t }}</span>
-                      </th>
-                    </tr>
-                  </thead>
 
                   <tbody role="rowgroup">
                     {%- for item in cart.items -%}
-                      <tr
+                      <div
                         id="CartDrawer-Item-{{ item.index | plus: 1 }}"
                         class="cart-item{% if item.parent_relationship.parent != null %} cart-item__nested-line{% endif %}"
                         role="row"
@@ -641,26 +541,23 @@ document.addEventListener('DOMContentLoaded', function() {
                           aria-label="{{- 'products.product.nested_label' | t: title: item.product.title, parent_title: item.parent_relationship.parent.title | escape -}}"
                         {% endif %}
                       >
-                        <td
-                          class="cart-item__media"
-                          role="cell"
-                          headers="CartDrawer-ColumnProductImage"
-                        >
+                        <!-- Section 1: Image -->
+                        <div class="cart-item__media">
                           {% if item.image %}
-                            {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
                             <a href="{{ item.url }}" class="cart-item__link" tabindex="-1" aria-hidden="true"> </a>
                             <img
                               class="cart-item__image"
                               src="{{ item.image | image_url: width: 300 }}"
                               alt="{{ item.image.alt | escape }}"
                               loading="lazy"
-                              width="150"
-                              height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                              width="100"
+                              height="100"
                             >
                           {% endif %}
-                        </td>
+                        </div>
 
-                        <td class="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
+                        <!-- Section 2: Product Details -->
+                        <div class="cart-item__details">
                           {%- if settings.show_vendor -%}
                             <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
                           {%- endif -%}
@@ -746,53 +643,20 @@ document.addEventListener('DOMContentLoaded', function() {
                               </li>
                             {%- endfor -%}
                           </ul>
-                        </td>
+                          
+                          <!-- Quantity Controls -->
+                          {%- liquid
+                            assign has_qty_rules = false
+                            if item.variant.quantity_rule.increment > 1 or item.variant.quantity_rule.min > 1 or item.variant.quantity_rule.max != null
+                              assign has_qty_rules = true
+                            endif
 
-                        <td class="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal">
-                          {%- render 'loading-spinner' -%}
-                          <div class="cart-item__price-wrapper">
-                            {%- if item.original_line_price != item.final_line_price -%}
-                              <div class="cart-item__discounted-prices">
-                                <span class="visually-hidden">
-                                  {{ 'products.product.price.regular_price' | t }}
-                                </span>
-                                <s class="cart-item__old-price price price--end">
-                                  {{ item.original_line_price | money }}
-                                </s>
-                                <span class="visually-hidden">
-                                  {{ 'products.product.price.sale_price' | t }}
-                                </span>
-                                <span class="price price--end">
-                                  {{ item.final_line_price | money }}
-                                </span>
-                              </div>
-                            {%- else -%}
-                              <span class="price price--end">
-                                {{ item.original_line_price | money }}
-                              </span>
-                            {%- endif -%}
-
-                            {%- if item.variant.available and item.unit_price_measurement -%}
-                              {% render 'unit-price', price: item.unit_price, measurement: item.unit_price_measurement %}
-                            {%- endif -%}
-                          </div>
-                        </td>
-                        {%- liquid
-                          assign has_qty_rules = false
-                          if item.variant.quantity_rule.increment > 1 or item.variant.quantity_rule.min > 1 or item.variant.quantity_rule.max != null
-                            assign has_qty_rules = true
-                          endif
-
-                          assign has_vol_pricing = false
-                          if item.variant.quantity_price_breaks.size > 0
-                            assign has_vol_pricing = true
-                          endif
-                        -%}
-                        <td
-                          class="cart-item__quantity {% if has_qty_rules or has_vol_pricing %} cart-item__quantity--info{% endif %}"
-                          role="cell"
-                          headers="CartDrawer-ColumnQuantity"
-                        >
+                            assign has_vol_pricing = false
+                            if item.variant.quantity_price_breaks.size > 0
+                              assign has_vol_pricing = true
+                            endif
+                          -%}
+                          <div class="cart-item__quantity {% if has_qty_rules or has_vol_pricing %} cart-item__quantity--info{% endif %}">
                           <quantity-popover>
                             <div class="cart-item__quantity-wrapper quantity-popover-wrapper">
                               <div class="quantity-popover-container{% if has_qty_rules or has_vol_pricing %} quantity-popover-container--hover{% endif %}">
@@ -859,24 +723,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                   </button>
                                 </quantity-input>
                               </div>
-                              <cart-remove-button
-                                id="CartDrawer-Remove-{{ item.index | plus: 1 }}"
-                                data-index="{{ item.index | plus: 1 }}"
-                              >
-                                <button
-                                  type="button"
-                                  class="button button--tertiary cart-remove-button"
-                                  aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
-                                  data-variant-id="{{ item.variant.id }}"
-                                  {% if item.instructions and item.instructions.can_remove == false %}
-                                    class="hidden"
-                                  {% endif %}
-                                >
-                                  <span class="svg-wrapper">
-                                    {{- 'icon-remove.svg' | inline_asset_content -}}
-                                  </span>
-                                </button>
-                              </cart-remove-button>
                             </div>
                             {%- if has_qty_rules or has_vol_pricing -%}
                               <button
@@ -974,8 +820,36 @@ document.addEventListener('DOMContentLoaded', function() {
                               </span>
                             </div>
                           </quantity-popover>
-                        </td>
-                      </tr>
+                          </div>
+                        </div>
+
+                        <!-- Section 3: Price & Actions -->
+                        <div class="cart-item__totals">
+                          {%- render 'loading-spinner' -%}
+                          <div class="cart-item__price-wrapper">
+                            {%- if item.original_line_price != item.final_line_price -%}
+                              <span class="cart-item__price-current">₹{{ item.final_line_price | money_without_currency }}</span>
+                              <span class="cart-item__price-original">₹{{ item.original_line_price | money_without_currency }}</span>
+                            {%- else -%}
+                              <span class="cart-item__price-current">₹{{ item.original_line_price | money_without_currency }}</span>
+                            {%- endif -%}
+                          </div>
+                          
+                          <!-- Delete Button -->
+                          <button
+                            class="cart-item__remove-button"
+                            onclick="removeCartItem({{ item.index | plus: 1 }})"
+                            aria-label="Remove {{ item.product.title }}"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <polyline points="3,6 5,6 21,6"></polyline>
+                              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
                     {%- endfor -%}
                   </tbody>
                 </table>
@@ -1154,3 +1028,13 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </div>
 </cart-drawer>
+
+<script>
+function removeCartItem(index) {
+  // Simple cart item removal function
+  const cartItems = document.querySelectorAll('.cart-item');
+  if (cartItems[index - 1]) {
+    cartItems[index - 1].remove();
+  }
+}
+</script>
