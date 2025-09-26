@@ -373,50 +373,32 @@
         </div>
       </div>
       
+
       {% if quick_add == 'standard' or quick_add == 'bulk' %}
         {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
         
-        {%- liquid
-          assign qty_rules = false
-          if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
-            assign qty_rules = true
-          endif
-        -%}
-        
-        {%- if card_product.variants_count > 1 or qty_rules -%}
+        {%- if card_product.variants_count > 1 -%}
           <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
             <button
               type="button"
               class="modern-add-to-cart"
               aria-haspopup="dialog"
-              aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
               data-product-url="{{ card_product.url }}"
             >
-              {{ 'products.product.choose_options' | t }}
+              Choose Options
             </button>
           </modal-opener>
           
           <quick-add-modal id="QuickAdd-{{ card_product.id }}" class="quick-add-modal">
-            <div
-              role="dialog"
-              aria-label="{{ 'products.product.choose_product_options' | t: product_name: card_product.title | escape }}"
-              aria-modal="true"
-              class="quick-add-modal__content global-settings-popup"
-              tabindex="-1"
-            >
-              <button
-                id="ModalClose-{{ card_product.id }}"
-                type="button"
-                class="quick-add-modal__toggle"
-                aria-label="{{ 'accessibility.close' | t }}"
-              >
+            <div role="dialog" aria-modal="true" class="quick-add-modal__content global-settings-popup" tabindex="-1">
+              <button type="button" class="quick-add-modal__toggle" aria-label="Close">
                 {{- 'icon-close.svg' | inline_asset_content -}}
               </button>
               <div id="QuickAddInfo-{{ card_product.id }}" class="quick-add-modal__content-info"></div>
             </div>
           </quick-add-modal>
         {%- else -%}
-          <product-form data-section-id="{{ section.id }}">
+          <product-form data-section-id="{{ section_id }}">
             {%- form 'product',
               card_product,
               id: product_form_id,
@@ -429,28 +411,13 @@
                 name="id"
                 value="{{ card_product.selected_or_first_available_variant.id }}"
                 class="product-variant-id"
-                {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
               >
               <button
-                id="{{ product_form_id }}-submit"
                 type="submit"
                 name="add"
                 class="modern-add-to-cart"
-                aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
-                aria-live="polite"
-                data-sold-out-message="true"
-                {% if card_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
               >
-                <span>
-                  {%- if card_product.selected_or_first_available_variant.available -%}
-                    ADD TO CART
-                  {%- else -%}
-                    {{ 'products.product.sold_out' | t }}
-                  {%- endif -%}
-                </span>
-                <span class="sold-out-message hidden">
-                  {{ 'products.product.sold_out' | t }}
-                </span>
+                <span>ADD TO CART</span>
                 {%- render 'loading-spinner' -%}
               </button>
             {%- endform -%}
@@ -499,7 +466,7 @@
         </div>
       </div>
       
-      <button type="button" class="modern-add-to-cart" disabled>
+      <button type="button" class="modern-add-to-cart" onclick="alert('Please select a collection in the theme settings to add real products!')">
         ADD TO CART
       </button>
     </div>

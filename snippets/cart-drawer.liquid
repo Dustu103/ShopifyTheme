@@ -60,11 +60,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
   /* Enhanced Cart Drawer Styling - Compatible with existing component-cart-drawer.css */
+  .enhanced-cart-drawer {
+    z-index: 9998 !important;
+  }
+  
   .enhanced-cart-drawer .drawer__inner {
-    width: 400px;
-    max-width: calc(100vw - 2rem);
+    width: 100% !important;
+    max-width: 100vw !important;
     background: white;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    z-index: 9999;
+  }
+
+  .enhanced-cart-drawer .drawer__contents {
+    flex: 1;
+    overflow-y: auto;
   }
 
   .enhanced-cart-drawer .drawer__header {
@@ -94,40 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
     min-height: auto;
   }
 
-  /* Promotional Banners */
-  .cart-drawer__promotions {
-    padding: 15px 20px;
-    background: #f8f9fa;
-  }
-
-  .cart-drawer__promo-banner {
-    background: #e32402;
-    color: white;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .cart-drawer__promo-banner--unlocked {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .cart-drawer__promo-icon {
-    background: white;
-    color: #e32402;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-  }
 
   .cart-drawer__promo-text {
     flex: 1;
@@ -148,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
   .cart-item {
     display: flex;
     align-items: center;
-    padding: 15px 0;
     border-bottom: 1px solid #eee;
   }
 
@@ -229,29 +207,104 @@ document.addEventListener('DOMContentLoaded', function() {
     padding: 5px;
   }
 
-  /* YOU MAY ALSO LIKE Section */
+  /* Promotional Banner */
+  .cart-drawer__promo-banner {
+    background: #e32402;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .promo-banner__text {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* Progress Bar Section */
+  .cart-drawer__progress-section {
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+  }
+
+  .progress-bar__container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .progress-bar__tier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .progress-bar__icon {
+    font-size: 16px;
+  }
+
+  .progress-bar__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .progress-bar__line {
+    flex: 1;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    position: relative;
+  }
+
+  .progress-bar__fill {
+    height: 100%;
+    background: #e32402;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .progress-bar__message {
+    font-size: 14px;
+    color: #e32402;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  /* START WITH OUR TOP SELLERS Section */
   .cart-drawer__recommendations {
     padding: 20px;
     border-top: 1px solid #eee;
+    background: white;
   }
 
   .cart-drawer__recommendations-title {
     font-size: 16px;
     font-weight: 700;
     color: #000;
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
   }
 
   .cart-drawer__recommendation-item {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 10px 0;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .cart-drawer__recommendation-item:last-child {
+    border-bottom: none;
   }
 
   .cart-drawer__recommendation-image {
     width: 60px;
     height: 60px;
+    flex-shrink: 0;
   }
 
   .cart-drawer__recommendation-details {
@@ -261,61 +314,98 @@ document.addEventListener('DOMContentLoaded', function() {
   .cart-drawer__recommendation-name {
     font-size: 14px;
     font-weight: 600;
-    color: #000;
-    margin: 0 0 5px 0;
+    color: #e32402;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+  }
+
+  .cart-drawer__recommendation-pricing {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .cart-drawer__recommendation-price {
-    font-size: 14px;
-    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    color: #e32402;
     margin: 0;
   }
 
+  .cart-drawer__recommendation-original-price {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+  }
+
   .cart-drawer__recommendation-add {
-    background: none;
+    background: transparent;
     border: 2px solid #e32402;
     color: #e32402;
     padding: 8px 16px;
     border-radius: 4px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 60px;
   }
 
-  /* Subtotal and Checkout */
+  .cart-drawer__recommendation-add:hover {
+    background: #e32402;
+    color: white;
+  }
+
+  /* Subtotal and Checkout - Fixed at Bottom */
   .cart__ctas {
-    padding: 20px;
+    padding: 10px 20px !important;
     border-top: 1px solid #eee;
     background: white;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 10000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
   .cart-drawer__subtotal {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    padding: 0;
+    border-bottom: none;
   }
 
   .cart-drawer__subtotal-label {
-    font-size: 14px;
-    color: #000;
+    font-size: 16px;
+    color: #e32402;
+    font-weight: 600;
   }
 
   .cart-drawer__subtotal-price {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   .cart-drawer__subtotal-current {
     color: #e32402;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .cart-drawer__subtotal-original {
     color: #999;
     text-decoration: line-through;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   .cart__checkout-button {
@@ -323,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #e32402;
     color: white;
     border: none;
-    padding: 15px;
+    padding: 16px 20px;
     border-radius: 6px;
     font-size: 16px;
     font-weight: 700;
@@ -331,37 +421,58 @@ document.addEventListener('DOMContentLoaded', function() {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(227, 36, 2, 0.3);
+    margin-top: 0;
+  }
+
+  .cart__checkout-button:hover {
+    background: #c41e02;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(227, 36, 2, 0.4);
+  }
+
+  .cart__checkout-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   .cart-drawer__payment-icons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
   }
 
   .payment-icon {
-    width: 30px;
-    height: 20px;
-    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+
+  .payment-icon:hover {
+    transform: scale(1.1);
   }
 
   .payment-icon.paytm {
     background: #00baf2;
     color: white;
-  }
-
-  .payment-icon.phonepe {
-    background: #5f259f;
-    color: white;
+    font-size: 11px;
   }
 
   .payment-icon.gpay {
-    background: #4285f4;
-    color: white;
+    background: white;
+    color: #4285f4;
+    font-size: 14px;
+    font-weight: 800;
+    border: 1px solid #e0e0e0;
   }
 
   /* Mobile Responsive */
@@ -369,6 +480,25 @@ document.addEventListener('DOMContentLoaded', function() {
     .cart-drawer {
       width: 100%;
       right: -100%;
+    }
+    
+    .enhanced-cart-drawer .drawer__inner {
+      width: 100% !important;
+      max-width: 100vw !important;
+    }
+    
+    .cart__ctas {
+      max-width: 100% !important;
+      margin-left: 0 !important;
+      padding: 10px 20px;
+    }
+  }
+
+  /* Desktop Responsive */
+  @media (min-width: 769px) {
+    .enhanced-cart-drawer .drawer__inner {
+      width: 450px !important;
+      max-width: 450px !important;
     }
   }
 </style>
@@ -417,6 +547,7 @@ document.addEventListener('DOMContentLoaded', function() {
           {%- endif -%}
         </div>
       {%- endif -%}
+      
       <div class="drawer__header">
         <h2 class="drawer__heading">YOUR CART</h2>
         <button
@@ -428,18 +559,36 @@ document.addEventListener('DOMContentLoaded', function() {
           <span class="svg-wrapper" style="color: #e32402; font-size: 24px; font-weight: bold;">×</span>
         </button>
       </div>
-      
-      <!-- Promotional Banners -->
-      <div class="cart-drawer__promotions">
+
+
+      {%- unless cart == empty -%}
+        <!-- Promotional Banner -->
         <div class="cart-drawer__promo-banner">
-          <span class="cart-drawer__promo-text">Get 10% off orders over ₹1,499 – use code SUPER10</span>
+          <div class="promo-banner__content">
+            <span class="promo-banner__text">Get 10% off orders over ₹1,499 – use code SUPER10</span>
+          </div>
         </div>
-        <div class="cart-drawer__promo-banner cart-drawer__promo-banner--unlocked">
-          <span class="cart-drawer__promo-icon">✓</span>
-          <span class="cart-drawer__promo-text">15% off</span>
-          <span class="cart-drawer__promo-text">You've unlocked 15% off – use code SUPER15</span>
+
+        <!-- Discount Progress Bar -->
+        <div class="cart-drawer__progress-section">
+          <div class="progress-bar__container">
+            <div class="progress-bar__tier">
+              <div class="progress-bar__icon">🛍️</div>
+              <span class="progress-bar__label">10% off</span>
+            </div>
+            <div class="progress-bar__line">
+              <div class="progress-bar__fill" style="width: 30%;"></div>
+            </div>
+            <div class="progress-bar__tier">
+              <span class="progress-bar__label">15% off</span>
+            </div>
+          </div>
+          <div class="progress-bar__message">
+            You're just ₹1,499.00 away from 10% off!
+          </div>
         </div>
-      </div>
+      {%- endunless -%}
+      
       <cart-drawer-items
         {% if cart == empty %}
           class=" is-empty"
@@ -839,6 +988,55 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
+
+        <!-- START WITH OUR TOP SELLERS Section - Inside scrollable area -->
+        <div class="cart-drawer__recommendations">
+          <h3 class="cart-drawer__recommendations-title">START WITH OUR TOP SELLERS</h3>
+          
+          <!-- Product 1: Protein Wafers -->
+          <div class="cart-drawer__recommendation-item">
+            <div class="cart-drawer__recommendation-image">
+              <img src="{{ 'protein-wafers-variety.jpg' | asset_url }}" alt="Protein Wafers - Variety Pack" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+            </div>
+            <div class="cart-drawer__recommendation-details">
+              <h4 class="cart-drawer__recommendation-name">PROTEIN WAFERS - VARIETY PACK OF 10</h4>
+              <div class="cart-drawer__recommendation-pricing">
+                <span class="cart-drawer__recommendation-price">₹499.00</span>
+                <span class="cart-drawer__recommendation-original-price">₹550.00</span>
+              </div>
+            </div>
+            <button class="cart-drawer__recommendation-add" onclick="addRecommendationToCart()">Add</button>
+          </div>
+
+          <!-- Product 2: Protein Chips -->
+          <div class="cart-drawer__recommendation-item">
+            <div class="cart-drawer__recommendation-image">
+              <img src="{{ 'protein-chips-variety.jpg' | asset_url }}" alt="Protein Chips - Variety Pack" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+            </div>
+            <div class="cart-drawer__recommendation-details">
+              <h4 class="cart-drawer__recommendation-name">PROTEIN CHIPS - VARIETY PACK OF 10</h4>
+              <div class="cart-drawer__recommendation-pricing">
+                <span class="cart-drawer__recommendation-price">₹400.00</span>
+              </div>
+            </div>
+            <button class="cart-drawer__recommendation-add" onclick="addRecommendationToCart()">Add</button>
+          </div>
+
+          <!-- Product 3: Chocolate Protein -->
+          <div class="cart-drawer__recommendation-item">
+            <div class="cart-drawer__recommendation-image">
+              <img src="{{ 'chocolate-protein-1kg.jpg' | asset_url }}" alt="Chocolate 1KG Protein" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+            </div>
+            <div class="cart-drawer__recommendation-details">
+              <h4 class="cart-drawer__recommendation-name">CHOCOLATE 1 KG - FERMENTED YEAST PROTEIN</h4>
+              <div class="cart-drawer__recommendation-pricing">
+                <span class="cart-drawer__recommendation-price">₹2,699.00</span>
+                <span class="cart-drawer__recommendation-original-price">₹2,899.00</span>
+              </div>
+            </div>
+            <button class="cart-drawer__recommendation-add" onclick="addRecommendationToCart()">Add</button>
+          </div>
+        </div>
       </cart-drawer-items>
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
@@ -864,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- Start blocks -->
         <!-- Subtotals -->
 
-        <div class="cart-drawer__footer" {{ block.shopify_attributes }}>
+        <div class="cart-drawer__footer" {{ block.shopify_attributes }} style="display: none;">
           <div>
             {%- if cart.cart_level_discount_applications.size > 0 -%}
               <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
@@ -925,20 +1123,6 @@ document.addEventListener('DOMContentLoaded', function() {
           </small>
         </div>
 
-        <!-- YOU MAY ALSO LIKE Section -->
-        <div class="cart-drawer__recommendations">
-          <h3 class="cart-drawer__recommendations-title">YOU MAY ALSO LIKE</h3>
-          <div class="cart-drawer__recommendation-item">
-            <div class="cart-drawer__recommendation-image">
-              <img src="{{ 'protein-chips-variety.jpg' | asset_url }}" alt="Protein Chips - Variety Pack" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
-            </div>
-            <div class="cart-drawer__recommendation-details">
-              <h4 class="cart-drawer__recommendation-name">Protein Chips - Variety Pack of 10</h4>
-              <p class="cart-drawer__recommendation-price">₹400.00</p>
-            </div>
-            <button class="cart-drawer__recommendation-add" onclick="addRecommendationToCart()">Add</button>
-          </div>
-        </div>
 
         <!-- CTAs -->
         <div class="cart__ctas" {{ block.shopify_attributes }}>
@@ -961,9 +1145,8 @@ document.addEventListener('DOMContentLoaded', function() {
           >
             <span>Checkout</span>
             <div class="cart-drawer__payment-icons">
-              <span class="payment-icon paytm">Paytm</span>
-              <span class="payment-icon phonepe">पे</span>
-              <span class="payment-icon gpay">G</span>
+              <span class="payment-icon paytm" title="Paytm">Paytm</span>
+              <span class="payment-icon gpay" title="Google Pay">G</span>
             </div>
           </button>
         </div>
