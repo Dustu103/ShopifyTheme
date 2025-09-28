@@ -18,6 +18,12 @@
     <div class="reviews-grid-{{ ai_gen_id }}" id="reviews-grid-{{ ai_gen_id }}">
       <!-- Reviews will be dynamically added here by JavaScript -->
     </div>
+    
+    <div class="reviews-pagination-{{ ai_gen_id }}" id="reviews-pagination-{{ ai_gen_id }}" style="display: none;">
+      <button class="view-more-btn-{{ ai_gen_id }}" id="view-more-btn-{{ ai_gen_id }}">
+        View More Reviews
+      </button>
+    </div>
   </div>
 </div>
 
@@ -64,67 +70,106 @@
 
   .review-card-{{ ai_gen_id }} {
     background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     break-inside: avoid;
     margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .review-card-{{ ai_gen_id }}:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   }
 
-  .review-header-{{ ai_gen_id }} {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .review-avatar-{{ ai_gen_id }} {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+  .review-product-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 200px;
     object-fit: cover;
-    flex-shrink: 0;
   }
 
-  .review-info-{{ ai_gen_id }} {
-    flex: 1;
+  .review-content-{{ ai_gen_id }} {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .review-card-no-image-{{ ai_gen_id }} .review-content-{{ ai_gen_id }} {
+    padding: 1.5rem;
   }
 
   .review-name-{{ ai_gen_id }} {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: {{ block.settings.name_color | default: '#333' }};
-    margin: 0 0 0.25rem 0;
+    margin: 0;
+    text-transform: capitalize;
   }
 
   .review-stars-{{ ai_gen_id }} {
     display: flex;
     gap: 2px;
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 
   .review-star-{{ ai_gen_id }} {
     width: 16px;
     height: 16px;
-    fill: #ffc107;
+    fill: #e32402;
+  }
+
+  .review-star-empty-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #ddd;
+    stroke-width: 1.5;
   }
 
   .review-comment-{{ ai_gen_id }} {
-    color: {{ block.settings.comment_color | default: '#666' }};
-    line-height: 1.6;
-    margin-bottom: 1rem;
+    color: {{ block.settings.comment_color | default: '#333' }};
+    line-height: 1.5;
+    margin: 0;
+    font-size: 0.9rem;
   }
 
   .review-date-{{ ai_gen_id }} {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #999;
-    text-align: right;
+    margin: 0;
+  }
+
+  .reviews-pagination-{{ ai_gen_id }} {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .view-more-btn-{{ ai_gen_id }} {
+    background: #e32402;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .view-more-btn-{{ ai_gen_id }}:hover {
+    background: #c01e02;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(227, 36, 2, 0.3);
+  }
+
+  .view-more-btn-{{ ai_gen_id }}:active {
+    transform: translateY(0);
   }
 
   /* Responsive Design */
@@ -167,17 +212,20 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const grid = document.getElementById('reviews-grid-{{ ai_gen_id }}');
+  const pagination = document.getElementById('reviews-pagination-{{ ai_gen_id }}');
+  const viewMoreBtn = document.getElementById('view-more-btn-{{ ai_gen_id }}');
+  
   if (!grid) return;
 
   // Review data from block settings
-  const reviews = [
+  const allReviews = [
     {% if block.settings.review_1_name != blank %}
     {
       name: "{{ block.settings.review_1_name }}",
       stars: {{ block.settings.review_1_stars | default: 5 }},
       comment: "{{ block.settings.review_1_comment }}",
       date: "{{ block.settings.review_1_date }}",
-      image: "{{ block.settings.review_1_image | img_url: '100x100' }}"
+      image: "{{ block.settings.review_1_image  }}"
     },
     {% endif %}
     {% if block.settings.review_2_name != blank %}
@@ -186,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_2_stars | default: 5 }},
       comment: "{{ block.settings.review_2_comment }}",
       date: "{{ block.settings.review_2_date }}",
-      image: "{{ block.settings.review_2_image | img_url: '100x100' }}"
+      image: "{{ block.settings.review_2_image  }}"
     },
     {% endif %}
     {% if block.settings.review_3_name != blank %}
@@ -195,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_3_stars | default: 5 }},
       comment: "{{ block.settings.review_3_comment }}",
       date: "{{ block.settings.review_3_date }}",
-      image: "{{ block.settings.review_3_image | img_url: '100x100' }}"
+      image: "{{ block.settings.review_3_image  }}"
     },
     {% endif %}
     {% if block.settings.review_4_name != blank %}
@@ -204,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_4_stars | default: 5 }},
       comment: "{{ block.settings.review_4_comment }}",
       date: "{{ block.settings.review_4_date }}",
-      image: "{{ block.settings.review_4_image | img_url: '100x100' }}"
+      image: "{{ block.settings.review_4_image  }}"
     },
     {% endif %}
     {% if block.settings.review_5_name != blank %}
@@ -213,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_5_stars | default: 5 }},
       comment: "{{ block.settings.review_5_comment }}",
       date: "{{ block.settings.review_5_date }}",
-      image: "{{ block.settings.review_5_image | img_url: '100x100' }}"
+      image: "{% if block.settings.review_5_image != blank %}{{ block.settings.review_5_image  }}{% else %}https://cdn.nector.io/?image=https://cdn.nector.io/nector-static/system-upload/c04b9fac-06aa-4172-918c-167503bbe118.jpeg&quality=25{% endif %}"
     },
     {% endif %}
     {% if block.settings.review_6_name != blank %}
@@ -222,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_6_stars | default: 5 }},
       comment: "{{ block.settings.review_6_comment }}",
       date: "{{ block.settings.review_6_date }}",
-      image: "{{ block.settings.review_6_image | img_url: '100x100' }}"
+      image: "{{ block.settings.review_6_image  }}"
     },
     {% endif %}
     {% if block.settings.review_7_name != blank %}
@@ -231,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_7_stars | default: 5 }},
       comment: "{{ block.settings.review_7_comment }}",
       date: "{{ block.settings.review_7_date }}",
-      image: "{{ block.settings.review_7_image | img_url: '100x100' }}"
+      image: "{{ block.settings.review_7_image  }}"
     },
     {% endif %}
     {% if block.settings.review_8_name != blank %}
@@ -240,35 +288,50 @@ document.addEventListener('DOMContentLoaded', function() {
       stars: {{ block.settings.review_8_stars | default: 5 }},
       comment: "{{ block.settings.review_8_comment }}",
       date: "{{ block.settings.review_8_date }}",
-      image: "{{ block.settings.review_8_image | img_url: '100x100' }}"
-    }
+      image: "{{ block.settings.review_8_image  }}"
+    },
+    {% endif %}
+    {% if block.settings.review_8_name != blank %}
+    {
+      name: "{{ block.settings.review_8_name }}",
+      stars: {{ block.settings.review_8_stars | default: 5 }},
+      comment: "{{ block.settings.review_8_comment }}",
+      date: "{{ block.settings.review_8_date }}",
+      image: "{{ block.settings.review_8_image  }}"
+    },
     {% endif %}
   ].filter(review => review.name); // Remove empty reviews
 
+  // Pagination variables
+  const reviewsPerPage = 8;
+  let currentPage = 0;
+  let displayedReviews = 0;
+
   function createReviewCard(review) {
     const card = document.createElement('div');
-    card.className = 'review-card-{{ ai_gen_id }}';
+    card.className = `review-card-{{ ai_gen_id }}${!review.image ? ' review-card-no-image-{{ ai_gen_id }}' : ''}`;
     
     let starsHtml = '';
     for (let i = 0; i < 5; i++) {
-      const filled = i < review.stars ? 'currentColor' : 'none';
-      const stroke = i < review.stars ? 'none' : 'currentColor';
-      starsHtml += `<svg class="review-star-{{ ai_gen_id }}" viewBox="0 0 24 24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" 
-              fill="${filled}" stroke="${stroke}" stroke-width="1"/>
-      </svg>`;
+      if (i < review.stars) {
+        starsHtml += `<svg class="review-star-{{ ai_gen_id }}" viewBox="0 0 24 24">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>`;
+      } else {
+        starsHtml += `<svg class="review-star-empty-{{ ai_gen_id }}" viewBox="0 0 24 24">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>`;
+      }
     }
     
     card.innerHTML = `
-      <div class="review-header-{{ ai_gen_id }}">
-        ${review.image ? `<img src="${review.image}" alt="${review.name}" class="review-avatar-{{ ai_gen_id }}">` : ''}
-        <div class="review-info-{{ ai_gen_id }}">
-          <h4 class="review-name-{{ ai_gen_id }}">${review.name}</h4>
-          <div class="review-stars-{{ ai_gen_id }}">${starsHtml}</div>
-        </div>
+      ${review.image ? `<img src="${review.image}" alt="Product" class="review-product-image-{{ ai_gen_id }}">` : ''}
+      <div class="review-content-{{ ai_gen_id }}">
+        <h4 class="review-name-{{ ai_gen_id }}">${review.name}</h4>
+        <div class="review-stars-{{ ai_gen_id }}">${starsHtml}</div>
+        ${review.comment ? `<p class="review-comment-{{ ai_gen_id }}">${review.comment}</p>` : ''}
+        ${review.date ? `<div class="review-date-{{ ai_gen_id }}">${review.date}</div>` : ''}
       </div>
-      ${review.comment ? `<p class="review-comment-{{ ai_gen_id }}">${review.comment}</p>` : ''}
-      ${review.date ? `<div class="review-date-{{ ai_gen_id }}">${review.date}</div>` : ''}
     `;
     
     return card;
@@ -304,15 +367,41 @@ document.addEventListener('DOMContentLoaded', function() {
     grid.children[minIndex].appendChild(card);
   }
 
-  // Initialize columns first
-  initializeColumns();
-  
-  // Add reviews with animation
-  reviews.forEach((review, index) => {
-    setTimeout(() => {
-      addReviewToShortestColumn(review);
-    }, index * 200); // Stagger the animation
+  function loadMoreReviews() {
+    const startIndex = currentPage * reviewsPerPage;
+    const endIndex = Math.min(startIndex + reviewsPerPage, allReviews.length);
+    const reviewsToShow = allReviews.slice(startIndex, endIndex);
+    
+    reviewsToShow.forEach((review, index) => {
+      setTimeout(() => {
+        addReviewToShortestColumn(review);
+        displayedReviews++;
+        
+        // Check if this was the last review to be added
+        if (displayedReviews >= allReviews.length) {
+          pagination.style.display = 'none';
+        }
+      }, index * 100); // Stagger the animation
+    });
+    
+    currentPage++;
+  }
+
+  function showViewMoreButton() {
+    if (allReviews.length > reviewsPerPage) {
+      pagination.style.display = 'block';
+    }
+  }
+
+  // Event listener for view more button
+  viewMoreBtn.addEventListener('click', function() {
+    loadMoreReviews();
   });
+
+  // Initialize
+  initializeColumns();
+  loadMoreReviews(); // Load first 8 reviews
+  showViewMoreButton(); // Show button if there are more reviews
 });
 </script>
 
