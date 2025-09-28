@@ -7,13 +7,21 @@
 
 <div class="reviews-section-{{ ai_gen_id }}">
   <div class="reviews-container-{{ ai_gen_id }}">
-    {% if block.settings.section_title != blank %}
-      <h2 class="reviews-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
-    {% endif %}
-    
-    {% if block.settings.section_subtitle != blank %}
-      <p class="reviews-subtitle-{{ ai_gen_id }}">{{ block.settings.section_subtitle }}</p>
-    {% endif %}
+    <div class="reviews-header-{{ ai_gen_id }}">
+      <div class="reviews-title-section-{{ ai_gen_id }}">
+        {% if block.settings.section_title != blank %}
+          <h2 class="reviews-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+        {% endif %}
+        {% if block.settings.section_subtitle != blank %}
+          <p class="reviews-subtitle-{{ ai_gen_id }}">{{ block.settings.section_subtitle }}</p>
+        {% endif %}
+      </div>
+      <div class="reviews-header-content-{{ ai_gen_id }}">
+        <button class="add-review-btn-{{ ai_gen_id }}" id="add-review-btn-{{ ai_gen_id }}">
+          Write A Review
+        </button>
+      </div>
+    </div>
     
     <div class="reviews-grid-{{ ai_gen_id }}" id="reviews-grid-{{ ai_gen_id }}">
       <!-- Reviews will be dynamically added here by JavaScript -->
@@ -23,6 +31,119 @@
       <button class="view-more-btn-{{ ai_gen_id }}" id="view-more-btn-{{ ai_gen_id }}">
         View More Reviews
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- Write A Review Modal -->
+<div class="review-modal-overlay-{{ ai_gen_id }}" id="review-modal-overlay-{{ ai_gen_id }}">
+  <div class="review-modal-{{ ai_gen_id }}" id="review-modal-{{ ai_gen_id }}">
+    <div class="review-modal-header-{{ ai_gen_id }}">
+      <h3 class="review-modal-title-{{ ai_gen_id }}">Write A Review</h3>
+      <button class="review-modal-close-{{ ai_gen_id }}" id="review-modal-close-{{ ai_gen_id }}">×</button>
+    </div>
+    
+    <!-- First Page -->
+    <div class="review-modal-content-{{ ai_gen_id }}" id="review-page-1-{{ ai_gen_id }}">
+      <div class="review-points-info-{{ ai_gen_id }}">
+        <p>You will receive <strong>60 Points</strong> for leaving a review. You will be rewarded for upto 1 review per month.</p>
+      </div>
+      
+      <div class="review-experience-section-{{ ai_gen_id }}">
+        <h4 class="review-experience-title-{{ ai_gen_id }}">How was your experience?</h4>
+        <p class="review-experience-desc-{{ ai_gen_id }}">Your feedback is valuable in helping us better understand your needs and tailor our service accordingly.</p>
+      </div>
+      
+      <div class="review-emoji-rating-{{ ai_gen_id }}">
+        <div class="emoji-option-{{ ai_gen_id }}" data-rating="1">😞</div>
+        <div class="emoji-option-{{ ai_gen_id }}" data-rating="2">😕</div>
+        <div class="emoji-option-{{ ai_gen_id }}" data-rating="3">😐</div>
+        <div class="emoji-option-{{ ai_gen_id }}" data-rating="4">😊</div>
+        <div class="emoji-option-{{ ai_gen_id }} selected" data-rating="5">😍</div>
+      </div>
+      
+      <div class="review-text-section-{{ ai_gen_id }}">
+        <textarea 
+          class="review-textarea-{{ ai_gen_id }}" 
+          id="review-textarea-{{ ai_gen_id }}"
+          placeholder="Share your experience using this product"
+          rows="4"
+        ></textarea>
+      </div>
+      
+      <div class="review-modal-actions-{{ ai_gen_id }}">
+        <button class="review-next-btn-{{ ai_gen_id }}" id="review-next-btn-{{ ai_gen_id }}">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <!-- Second Page -->
+    <div class="review-modal-content-{{ ai_gen_id }}" id="review-page-2-{{ ai_gen_id }}" style="display: none;">
+      <div class="review-points-info-{{ ai_gen_id }}">
+        <p>You will receive <strong>60 Points</strong> for leaving a review. You will be rewarded for upto 1 review per month.</p>
+      </div>
+      
+      <div class="review-form-section-{{ ai_gen_id }}">
+        <div class="review-form-field-{{ ai_gen_id }}">
+          <label class="review-form-label-{{ ai_gen_id }}" for="review-name-{{ ai_gen_id }}">
+            Name <span class="required-asterisk-{{ ai_gen_id }}">*</span>
+          </label>
+          <input 
+            type="text" 
+            class="review-form-input-{{ ai_gen_id }}" 
+            id="review-name-{{ ai_gen_id }}"
+            placeholder="Enter your name"
+            required
+          >
+        </div>
+        
+        <div class="review-form-field-{{ ai_gen_id }}">
+          <label class="review-form-label-{{ ai_gen_id }}" for="review-email-{{ ai_gen_id }}">
+            Email <span class="required-asterisk-{{ ai_gen_id }}">*</span>
+          </label>
+          <input 
+            type="email" 
+            class="review-form-input-{{ ai_gen_id }}" 
+            id="review-email-{{ ai_gen_id }}"
+            placeholder="Enter your email"
+            required
+          >
+        </div>
+      </div>
+      
+      <div class="review-upload-bonus-{{ ai_gen_id }}">
+        <p>* Upload an image and receive a 1.5X bonus!</p>
+      </div>
+      
+      <div class="review-upload-section-{{ ai_gen_id }}">
+        <div class="upload-option-{{ ai_gen_id }}" id="upload-images-{{ ai_gen_id }}">
+          <div class="upload-icon-{{ ai_gen_id }}">📷</div>
+          <div class="upload-text-{{ ai_gen_id }}">
+            <div class="upload-title-{{ ai_gen_id }}">Upload Images</div>
+            <div class="upload-subtitle-{{ ai_gen_id }}">You can upload upto 5 images</div>
+          </div>
+          <input type="file" id="image-upload-{{ ai_gen_id }}" multiple accept="image/*" style="display: none;">
+        </div>
+        
+        <div class="upload-option-{{ ai_gen_id }}" id="upload-video-{{ ai_gen_id }}">
+          <div class="upload-icon-{{ ai_gen_id }}">🎥</div>
+          <div class="upload-text-{{ ai_gen_id }}">
+            <div class="upload-title-{{ ai_gen_id }}">Upload Video</div>
+            <div class="upload-subtitle-{{ ai_gen_id }}">Max Limit 50 MB</div>
+          </div>
+          <input type="file" id="video-upload-{{ ai_gen_id }}" accept="video/*" style="display: none;">
+        </div>
+      </div>
+      
+      <div class="review-modal-actions-{{ ai_gen_id }}">
+        <button class="review-back-btn-{{ ai_gen_id }}" id="review-back-btn-{{ ai_gen_id }}">
+          ← Back
+        </button>
+        <button class="review-submit-btn-{{ ai_gen_id }}" id="review-submit-btn-{{ ai_gen_id }}">
+          Submit
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -39,20 +160,60 @@
     padding: 0 2rem;
   }
 
+  .reviews-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .reviews-title-section-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
   .reviews-title-{{ ai_gen_id }} {
     font-size: 2.5rem;
     font-weight: 700;
     color: {{ block.settings.title_color | default: '#333' }};
-    text-align: center;
-    margin-bottom: 1rem;
+    text-align: left;
+    margin: 0 0 0.5rem 0;
   }
 
   .reviews-subtitle-{{ ai_gen_id }} {
     font-size: 1.1rem;
     color: {{ block.settings.subtitle_color | default: '#666' }};
-    text-align: center;
+    text-align: left;
     max-width: 600px;
-    margin: 0 auto 3rem auto;
+    margin: 0;
+  }
+
+  .reviews-header-content-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+  }
+
+  .add-review-btn-{{ ai_gen_id }} {
+    background: #e32402;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .add-review-btn-{{ ai_gen_id }}:hover {
+    background: #c01e02;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(227, 36, 2, 0.3);
+  }
+
+  .add-review-btn-{{ ai_gen_id }}:active {
+    transform: translateY(0);
   }
 
   .reviews-grid-{{ ai_gen_id }} {
@@ -87,7 +248,7 @@
 
   .review-product-image-{{ ai_gen_id }} {
     width: 100%;
-    height: 200px;
+    {% comment %} height: 200px; {% endcomment %}
     object-fit: cover;
   }
 
@@ -134,7 +295,9 @@
     color: {{ block.settings.comment_color | default: '#333' }};
     line-height: 1.5;
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000b3;
   }
 
   .review-date-{{ ai_gen_id }} {
@@ -169,6 +332,322 @@
   }
 
   .view-more-btn-{{ ai_gen_id }}:active {
+    transform: translateY(0);
+  }
+
+  /* Review Modal Styles */
+  .review-modal-overlay-{{ ai_gen_id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .review-modal-overlay-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .review-modal-{{ ai_gen_id }} {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .review-modal-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+  }
+
+  .review-modal-title-{{ ai_gen_id }} {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  .review-modal-close-{{ ai_gen_id }} {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+  }
+
+  .review-modal-close-{{ ai_gen_id }}:hover {
+    color: #333;
+  }
+
+  .review-modal-content-{{ ai_gen_id }} {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+  }
+
+  .review-points-info-{{ ai_gen_id }} {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .review-points-info-{{ ai_gen_id }} p {
+    margin: 0;
+    color: #000000b3;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .review-experience-section-{{ ai_gen_id }} {
+    margin-bottom: 1.5rem;
+  }
+
+  .review-experience-title-{{ ai_gen_id }} {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .review-experience-desc-{{ ai_gen_id }} {
+    color: #000000b3;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .review-emoji-rating-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .emoji-option-{{ ai_gen_id }} {
+    font-size: 2.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+  }
+
+  .emoji-option-{{ ai_gen_id }}:hover {
+    background: #f0f0f0;
+  }
+
+  .emoji-option-{{ ai_gen_id }}.selected {
+    background: #e32402;
+    transform: scale(1.1);
+  }
+
+  .review-text-section-{{ ai_gen_id }} {
+    margin-bottom: 1.5rem;
+  }
+
+  .review-textarea-{{ ai_gen_id }} {
+    width: 100% !important;
+    padding: 1rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #000000b3 !important;
+    font-family: inherit !important;
+    resize: vertical !important;
+    min-height: 100px !important;
+    outline: none !important;
+    transition: border-color 0.3s ease !important;
+    line-height: 1.5 !important;
+  }
+
+  .review-textarea-{{ ai_gen_id }}:focus {
+    border-color: #e32402;
+  }
+
+  .review-textarea-{{ ai_gen_id }}::placeholder {
+    color: #999;
+  }
+
+  .review-modal-actions-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .review-next-btn-{{ ai_gen_id }} {
+    background: #e32402;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .review-next-btn-{{ ai_gen_id }}:hover {
+    background: #c01e02;
+    transform: translateY(-1px);
+  }
+
+  .review-next-btn-{{ ai_gen_id }}:active {
+    transform: translateY(0);
+  }
+
+  /* Second Page Styles */
+  .review-form-section-{{ ai_gen_id }} {
+    margin-bottom: 1.5rem;
+  }
+
+  .review-form-field-{{ ai_gen_id }} {
+    margin-bottom: 1rem;
+  }
+
+  .review-form-label-{{ ai_gen_id }} {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  .required-asterisk-{{ ai_gen_id }} {
+    color: #e32402;
+  }
+
+  .review-form-input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .review-form-input-{{ ai_gen_id }}:focus {
+    border-color: #e32402;
+  }
+
+  .review-form-input-{{ ai_gen_id }}::placeholder {
+    color: #999;
+  }
+
+  .review-upload-bonus-{{ ai_gen_id }} {
+    margin-bottom: 1rem;
+  }
+
+  .review-upload-bonus-{{ ai_gen_id }} p {
+    margin: 0;
+    color: #000000b3;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .review-upload-section-{{ ai_gen_id }} {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-option-{{ ai_gen_id }} {
+    flex: 1;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .upload-option-{{ ai_gen_id }}:hover {
+    border-color: #e32402;
+    background: #fafafa;
+  }
+
+  .upload-icon-{{ ai_gen_id }} {
+    font-size: 2rem;
+    color: #e32402;
+  }
+
+  .upload-text-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .upload-title-{{ ai_gen_id }} {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+  }
+
+  .upload-subtitle-{{ ai_gen_id }} {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000b3;
+  }
+
+  .review-back-btn-{{ ai_gen_id }} {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+  }
+
+  .review-back-btn-{{ ai_gen_id }}:hover {
+    background: #e9ecef;
+    border-color: #ccc;
+  }
+
+  .review-submit-btn-{{ ai_gen_id }} {
+    background: #e32402;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .review-submit-btn-{{ ai_gen_id }}:hover {
+    background: #c01e02;
+    transform: translateY(-1px);
+  }
+
+  .review-submit-btn-{{ ai_gen_id }}:active {
     transform: translateY(0);
   }
 
@@ -397,6 +876,168 @@ document.addEventListener('DOMContentLoaded', function() {
   viewMoreBtn.addEventListener('click', function() {
     loadMoreReviews();
   });
+
+  // Modal functionality
+  const addReviewBtn = document.getElementById('add-review-btn-{{ ai_gen_id }}');
+  const modalOverlay = document.getElementById('review-modal-overlay-{{ ai_gen_id }}');
+  const modalClose = document.getElementById('review-modal-close-{{ ai_gen_id }}');
+  const emojiOptions = document.querySelectorAll('.emoji-option-{{ ai_gen_id }}');
+  const nextBtn = document.getElementById('review-next-btn-{{ ai_gen_id }}');
+  const textarea = document.getElementById('review-textarea-{{ ai_gen_id }}');
+
+  let selectedRating = 5; // Default to highest rating
+
+  // Open modal
+  addReviewBtn.addEventListener('click', function() {
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  });
+
+  // Close modal
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = 'auto'; // Restore scrolling
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', function(e) {
+    if (e.target === modalOverlay) {
+      closeModal();
+    }
+  });
+
+  // Emoji rating selection
+  emojiOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      // Remove selected class from all options
+      emojiOptions.forEach(opt => opt.classList.remove('selected'));
+      // Add selected class to clicked option
+      this.classList.add('selected');
+      selectedRating = parseInt(this.dataset.rating);
+    });
+  });
+
+  // Page navigation elements
+  const page1 = document.getElementById('review-page-1-{{ ai_gen_id }}');
+  const page2 = document.getElementById('review-page-2-{{ ai_gen_id }}');
+  const backBtn = document.getElementById('review-back-btn-{{ ai_gen_id }}');
+  const submitBtn = document.getElementById('review-submit-btn-{{ ai_gen_id }}');
+  const nameInput = document.getElementById('review-name-{{ ai_gen_id }}');
+  const emailInput = document.getElementById('review-email-{{ ai_gen_id }}');
+  const imageUpload = document.getElementById('image-upload-{{ ai_gen_id }}');
+  const videoUpload = document.getElementById('video-upload-{{ ai_gen_id }}');
+  const uploadImages = document.getElementById('upload-images-{{ ai_gen_id }}');
+  const uploadVideo = document.getElementById('upload-video-{{ ai_gen_id }}');
+
+  // Next button functionality - go to page 2
+  nextBtn.addEventListener('click', function() {
+    const reviewText = textarea.value.trim();
+    
+    if (reviewText === '') {
+      alert('Please share your experience before proceeding.');
+      return;
+    }
+
+    // Hide page 1, show page 2
+    page1.style.display = 'none';
+    page2.style.display = 'block';
+  });
+
+  // Back button functionality - go to page 1
+  backBtn.addEventListener('click', function() {
+    page2.style.display = 'none';
+    page1.style.display = 'block';
+  });
+
+  // Upload functionality
+  uploadImages.addEventListener('click', function() {
+    imageUpload.click();
+  });
+
+  uploadVideo.addEventListener('click', function() {
+    videoUpload.click();
+  });
+
+  // Handle file uploads
+  imageUpload.addEventListener('change', function(e) {
+    const files = e.target.files;
+    if (files.length > 5) {
+      alert('You can upload maximum 5 images.');
+      return;
+    }
+    console.log('Images selected:', files.length);
+  });
+
+  videoUpload.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file && file.size > 50 * 1024 * 1024) { // 50MB limit
+      alert('Video file size must be less than 50MB.');
+      return;
+    }
+    console.log('Video selected:', file ? file.name : 'none');
+  });
+
+  // Submit button functionality
+  submitBtn.addEventListener('click', function() {
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const reviewText = textarea.value.trim();
+    
+    if (name === '') {
+      alert('Please enter your name.');
+      nameInput.focus();
+      return;
+    }
+    
+    if (email === '') {
+      alert('Please enter your email.');
+      emailInput.focus();
+      return;
+    }
+    
+    if (!isValidEmail(email)) {
+      alert('Please enter a valid email address.');
+      emailInput.focus();
+      return;
+    }
+
+    // Here you can add the logic to submit the review
+    console.log('Review submitted:', {
+      rating: selectedRating,
+      text: reviewText,
+      name: name,
+      email: email,
+      images: imageUpload.files,
+      video: videoUpload.files[0]
+    });
+
+    // Show success message
+    alert('Thank you for your review! You will receive 60 points.');
+    
+    // Close modal and reset form
+    closeModal();
+    resetForm();
+  });
+
+  // Email validation function
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // Reset form function
+  function resetForm() {
+    textarea.value = '';
+    nameInput.value = '';
+    emailInput.value = '';
+    imageUpload.value = '';
+    videoUpload.value = '';
+    selectedRating = 5;
+    emojiOptions.forEach(opt => opt.classList.remove('selected'));
+    emojiOptions[4].classList.add('selected'); // Reset to highest rating
+    page2.style.display = 'none';
+    page1.style.display = 'block';
+  }
 
   // Initialize
   initializeColumns();
