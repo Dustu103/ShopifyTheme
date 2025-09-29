@@ -352,7 +352,7 @@
       "name": "t:sections.collapsible_content.presets.name",
       "settings": {
         "caption": "",
-        "heading": "FREQUENTLYASKED  QUESTIONS",
+        "heading": "FREQUENTLY ASKED QUESTIONS",
         "heading_size": "hxxl",
         "heading_alignment": "left",
         "layout": "row",
